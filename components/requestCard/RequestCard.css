@@ -1,0 +1,106 @@
+/* Card.css */
+
+/* Card container */
+.card {
+    width: 300px;
+    border-radius: 12px;
+    /* overflow: hidden; */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    margin: 1rem;
+    font-family: Arial, sans-serif;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+  }
+  
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  .card-cat {
+      display: flex;
+      margin: 1rem 1rem 0 1rem;
+      align-items: center;
+  }
+
+    .card-cat-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 20%;
+      background-color: white;
+    }
+
+    .card-cat-text {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: black;
+      margin-left: 0.75rem;
+      margin-top: 0.5rem;
+    }
+
+  /* Card header */
+  .card-header {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+  }
+  
+  .card-header-icon {
+    width: 38px;
+    height: 30px;
+    margin-right: 0.5rem;
+  }
+  
+  
+  /* Card body */
+  .card-body {
+    padding: 2rem 1rem 1rem 1rem;
+  }
+  
+  .card-title {
+    font-size: 1.30rem;
+    font-weight: bold;
+    /* margin-bottom: 0.5rem; */
+    color: #111827; /* Very dark gray text */
+  }
+  
+  .card-description {
+    font-size: 0.875rem;
+    color: #6b7280; /* Gray text */
+    margin-bottom: 1rem;
+  }
+/* 
+  .card-price {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #111827;
+  } */
+  
+  /* Card footer */
+  .card-view-footer {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    /* border-top: 1px solid #e5e7eb; */
+    font-size: 0.875rem;
+    color: #4b5563; /* Medium gray text */
+  }
+  
+  .card-view-footer-icon {
+    margin-right: 0.5rem;
+    color: #9ca3af; /* Light gray text */
+  }
+
+  .card-edit-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    /* border-top: 1px solid #e5e7eb; */
+    font-size: 0.875rem;
+    color: #4b5563; /* Medium gray text */
+  }
+
+  .card-edit-footer-icon {
+    margin: auto;
+  }

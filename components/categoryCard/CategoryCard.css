@@ -1,0 +1,28 @@
+.card {
+    width: 110px;
+    max-height: 160px;
+    border-radius: 10%;
+    padding-bottom: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 30px 30px 15px 15px;
+}
+
+.card:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+    transition: transform 0.5s;
+}
+
+.card-image{
+    width: 100%;
+    object-fit: cover;
+    border-radius: 30px;
+    border: #b7b8b8 solid 2px;
+}
+
+.card-text {
+    font-size: 1rem;
+    padding: 10px;
+    text-align: center;
+    color: #737676;
+}

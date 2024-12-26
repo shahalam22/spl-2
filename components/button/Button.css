@@ -1,0 +1,82 @@
+.button {
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    outline: none;
+  }
+  
+  /* Variants */
+  .button-black {
+    background-color: black; /* Tailwind's bg-blue-500 */
+    color: white;
+    border: 1px solid black;
+  }
+  
+  .button-black:hover {
+    background-color: white; /* Tailwind's bg-blue-700 */
+    color: black;
+    border: 1px solid black;
+  }
+
+  .button-white {
+    background-color: white; /* Tailwind's bg-blue-700 */
+    color: black;
+    border: 1px solid black;
+  }
+
+  .button-cyan {
+    background-color: #23BABD; /* Tailwind's bg-blue-500 */
+    color: white;
+    border: 1px solid #23BABD;
+  }
+  
+  .button-cyan:hover {
+    background-color: white; /* Tailwind's bg-blue-700 */
+    color: #23BABD;
+    border: 1px solid #23BABD;
+  }
+
+  .button-red {
+    background-color: red; /* Tailwind's bg-blue-500 */
+    color: white;
+    border: 1px solid red;
+  }
+  
+  .button-red:hover {
+    background-color: white; /* Tailwind's bg-blue-700 */
+    color: red;
+    border: 1px solid red;
+  }
+  
+  /* Sizes */
+  .button-sm {
+    width: 90px;
+    height: 35px;
+    font-size: 12px;
+    font-weight: medium;
+  }
+  
+  .button-md {
+    width: 120px;
+    height: 40px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .button-lg {
+    width: 180px;
+    height: 50px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .button-block {
+    display: block;
+    width: 100%;
+    /* width: fit-content; */
+    padding: 0px 10px 0px 10px;
+    height: 30px;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0 auto;
+  }
+  

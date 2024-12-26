@@ -1,0 +1,62 @@
+.single-resource-page {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  align-items: start;
+  padding: 20px 10px;
+  max-width: 750px;
+  background-image: url('/form_bg2.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin: auto;
+}
+
+.single-resource-page-left{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    padding: 0 10px;
+}
+
+.single-resource-page-left-image{
+    width: 100%;
+    object-fit: cover;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.single-resource-page-left-loc-price{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 50px 0 15px 0;
+}
+
+.single-resource-page-left-buttons{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.single-resource-page-right{
+    background-color: white;
+    padding: 20px 10px;
+    border-radius: 15px;
+}
+
+@media (max-width: 480px) {
+    .single-resource-page{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .single-resource-page-left{
+        width: 100%;
+    }
+
+    .single-resource-page-right{
+        width: 100%;
+    }
+}
