@@ -30,7 +30,7 @@ export default function Home() {
 
 
 
-{/* <p>Hello</p> */}
+      {/* <p>Hello</p> */}
       {/* <Header/> */}
       {/* <HeaderAuth/> */}
       {/* <Footer/> */}
