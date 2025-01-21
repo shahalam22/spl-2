@@ -99,8 +99,8 @@ model Transaction {
   post_id        Int
   user_id        Int
 
-  post           Post      @relation(fields: [post_id], references: [post_id])
-  user           User      @relation(fields: [user_id], references: [user_id])
+  post           Post      @relation(fields: [post_id], references: [post_id], onDelete: Cascade)
+  user           User      @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
 }
 
 model Bid {
@@ -115,7 +115,7 @@ model Bid {
   product_id Int
 
   user      User      @relation(fields: [user_id], references: [user_id])
-  event     Event     @relation(fields: [event_id], references: [event_id])
+  event     Event     @relation(fields: [event_id], references: [event_id], onDelete: Cascade)
 }
 
 model Category {

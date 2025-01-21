@@ -13,12 +13,19 @@ export const getMessagesByUser = async (userId) => {
 };
 
 export const getMessagesByEvent = async (eventId) => {
+  eventId = parseInt(eventId, 10);
   return await prisma.message.findMany({ where: { receiver_id: eventId } });
 };
 
 export const updateMessageStatus = async (messageId, status) => {
+  messageId = parseInt(messageId, 10);
   return await prisma.message.update({
     where: { message_id: messageId },
     data: { isRead: status },
   });
+};
+
+export const deleteMessage = async (messageId) => {
+  messageId = parseInt(messageId, 10);
+  return await prisma.message.delete({ where: { message_id: messageId } });
 };

@@ -2,6 +2,8 @@ import * as notificationService from "../services/notificationService.js";
 import catchAsync from "../utils/catchAsync.js";
 
 export const createNotification = catchAsync(async (req, res) => {
+  console.log(req.body);
+  
   const notification = await notificationService.createNotification({
     ...req.body,
     user_id: req.user.user_id,
@@ -16,7 +18,7 @@ export const getNotifications = catchAsync(async (req, res) => {
 
 export const markNotificationAsRead = catchAsync(async (req, res) => {
   const notification = await notificationService.updateNotificationStatus(req.params.id, true);
-  res.status(200).json({ success: true, data: notification });
+  res.status(200).json({ success: true });
 });
 
 export const deleteNotification = catchAsync(async (req, res) => {
