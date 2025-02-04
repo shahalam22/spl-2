@@ -1,0 +1,151 @@
+Folder structure for: F:\spl-2
+
+📁 spl-2/
+├── 📁 app/
+    ├── 📁 category/
+        └── 📄 page.js
+    ├── 📁 events/
+        ├── 📁 [id]/
+            └── 📄 page.js
+        └── 📄 page.js
+    ├── 📁 messages/
+        └── 📄 page.js
+    ├── 📁 notifications/
+        └── 📄 page.js
+    ├── 📁 requests/
+        └── 📄 page.js
+    ├── 📁 resources/
+        └── 📄 page.js
+    ├── 📄 favicon.ico
+    ├── 📄 globals.css
+    ├── 📄 layout.js
+    └── 📄 page.js
+├── 📁 components/
+    ├── 📁 RegistrationPage/
+        ├── 📄 RegistrationPage.css
+        └── 📄 RegistrationPage.jsx
+    ├── 📁 bidDialogue/
+        ├── 📄 BidDialogue.css
+        └── 📄 BidDialogue.jsx
+    ├── 📁 button/
+        ├── 📄 Button.css
+        └── 📄 Button.jsx
+    ├── 📁 categoryCard/
+        ├── 📄 CategoryCard.css
+        └── 📄 CategoryCard.jsx
+    ├── 📁 eventCard/
+        ├── 📄 EventCard.css
+        └── 📄 EventCard.jsx
+    ├── 📁 eventForm/
+        ├── 📄 EventForm.css
+        └── 📄 EventForm.jsx
+    ├── 📁 eventProduct/
+        ├── 📄 EventProduct.css
+        └── 📄 EventProduct.jsx
+    ├── 📁 eventUser/
+        └── 📄 EventUser.jsx
+    ├── 📁 footer/
+        ├── 📄 Footer.css
+        └── 📄 Footer.jsx
+    ├── 📁 header/
+        ├── 📄 Header.css
+        └── 📄 Header.jsx
+    ├── 📁 headerAuth/
+        └── 📄 HeaderAuth.jsx
+    ├── 📁 homePage/
+        ├── 📄 HomePage.css
+        └── 📄 HomePage.jsx
+    ├── 📁 loginPage/
+        ├── 📄 LoginPage.css
+        └── 📄 LoginPage.jsx
+    ├── 📁 mainCategoryPage/
+        ├── 📄 CategoryPage.css
+        └── 📄 CategoryPage.jsx
+    ├── 📁 registrationDialogue/
+        ├── 📄 RegistrationDialogue.css
+        └── 📄 RegistrationDialogue.jsx
+    ├── 📁 requestCard/
+        ├── 📄 RequestCard.css
+        └── 📄 RequestCard.jsx
+    ├── 📁 requestForm/
+        ├── 📄 RequestForm.css
+        └── 📄 RequestForm.jsx
+    ├── 📁 resourceCard/
+        ├── 📄 ResourceCard.css
+        └── 📄 ResourceCard.jsx
+    ├── 📁 resourceForm/
+        ├── 📄 ResourceForm.css
+        └── 📄 ResourceForm.jsx
+    ├── 📁 singleConversation/
+        └── 📄 SingleConversation.jsx
+    ├── 📁 singleEventPage/
+        ├── 📄 SingleEventPage.css
+        └── 📄 SingleEventPage.jsx
+    ├── 📁 singleNotification/
+        └── 📄 SingleNotification.jsx
+    ├── 📁 singleRequestPage/
+        ├── 📄 SingleRequestPage.css
+        └── 📄 SingleRequestPage.jsx
+    └── 📁 singleResourcePage/
+        ├── 📄 SingleResourcePage.css
+        └── 📄 SingleResourcePage.jsx
+├── 📁 prisma/
+    ├── 📁 migrations/
+        ├── 📁 20250117220250_init/
+            └── 📄 migration.sql
+        ├── 📁 20250203035114_update_bid/
+            └── 📄 migration.sql
+        └── 📄 migration_lock.toml
+    ├── 📄 schema.prisma
+    ├── 📄 seed.js
+    └── 📄 testSeed.js
+├── 📁 server/
+    ├── 📁 controllers/
+        ├── 📄 bidController.js
+        ├── 📄 eventContoller.js
+        ├── 📄 messageController.js
+        ├── 📄 notificationController.js
+        ├── 📄 postController.js
+        └── 📄 userController.js
+    ├── 📁 lib/
+        └── 📄 prisma.js
+    ├── 📁 middlewares/
+        ├── 📄 auth.js
+        └── 📄 error.js
+    ├── 📁 models/
+        ├── 📄 Bid.js
+        ├── 📄 Category.js
+        ├── 📄 Event.js
+        ├── 📄 Message.js
+        ├── 📄 Notification.js
+        ├── 📄 Post.js
+        ├── 📄 Transaction.js
+        └── 📄 User.js
+    ├── 📁 routes/
+        ├── 📄 bidRoutes.js
+        ├── 📄 eventRoutes.js
+        ├── 📄 messageRoutes.js
+        ├── 📄 notificationRoutes.js
+        ├── 📄 postRoutes.js
+        └── 📄 userRoutes.js
+    ├── 📁 services/
+        ├── 📄 bidService.js
+        ├── 📄 eventService.js
+        ├── 📄 messageService.js
+        ├── 📄 notificationService.js
+        ├── 📄 postService.js
+        └── 📄 userService.js
+    ├── 📁 utils/
+        ├── 📄 catchAsync.js
+        └── 📄 errorHandler.js
+    └── 📄 server.js
+├── 📄 README.md
+├── 📄 folder_structure.py
+├── 📄 jsconfig.json
+├── 📄 next.config.mjs
+├── 📄 package-lock.json
+├── 📄 package.json
+├── 📄 postcss.config.mjs
+├── 📄 project_structure.txt
+└── 📄 tailwind.config.mjs
+

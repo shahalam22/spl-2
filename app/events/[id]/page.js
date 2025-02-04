@@ -1,3 +1,5 @@
+// THIS IS SINGLE EVENT PAGE. PATH: app\events\[id]\page.js
+
 'use client'
 
 import BidDialogue from '@/components/bidDialogue/BidDialogue'

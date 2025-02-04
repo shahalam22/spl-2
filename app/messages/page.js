@@ -1,3 +1,6 @@
+// THIS IS MESSAGE PAGE. PATH: app\messages\page.js
+
+
 import React from 'react'
 import SingleConversation from '@/components/singleConversation/SingleConversation'
 import Button from '@/components/button/Button'

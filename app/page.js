@@ -1,3 +1,6 @@
+// THIS IS MAIN PAGE. PATH: app\page.js
+
+
 import BidDialogue from "@/components/bidDialogue/BidDialogue";
 import Button from "@/components/button/Button";
 import EventForm from "@/components/eventForm/EventForm";
@@ -23,13 +26,6 @@ export default function Home() {
   return (
     <>
       <HomePage />
-      {/* <SingleConversation /> */}
-    </>
-  );
-}
-
-
-
       {/* <p>Hello</p> */}
       {/* <Header/> */}
       {/* <HeaderAuth/> */}
@@ -46,3 +42,10 @@ export default function Home() {
       {/* <EventProduct /> */}
       {/* <EventUser /> */}
       {/* <BidDialogue /> */}
+      {/* <SingleConversation /> */}
+    </>
+  );
+}
+
+
+

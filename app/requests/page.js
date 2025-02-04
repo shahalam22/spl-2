@@ -1,3 +1,6 @@
+// THIS IS REQUESTS PAGE. PATH: app\requests\page.js
+
+
 'use client'
 import Button from '@/components/button/Button'
 import RequestCard from '@/components/requestCard/RequestCard'

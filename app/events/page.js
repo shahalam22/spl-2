@@ -1,3 +1,5 @@
+// THIS IS EVENTS PAGE. PATH: app\events\page.js
+
 'use client'
 import Button from '@/components/button/Button'
 import EventCard from '@/components/eventCard/EventCard';

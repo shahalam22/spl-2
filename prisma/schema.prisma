@@ -8,121 +8,123 @@ datasource db {
 }
 
 model User {
-  user_id         Int       @id @default(autoincrement())
-  username        String    @unique
-  email           String    @unique
-  hashedPassword  String
-  profilePicture  String?
-  lastLogin       DateTime?
-  createdAt       DateTime  @default(now())
+  user_id        Int       @id @default(autoincrement())
+  username       String    @unique
+  email          String    @unique
+  hashedPassword String
+  profilePicture String?
+  lastLogin      DateTime?
+  createdAt      DateTime  @default(now())
 
   // Relations
-  notifications   Notification[]
-  messagesSent    Message[] @relation("MessageSender")
-  messagesReceived Message[] @relation("MessageReceiver")
-  events          Event[]
-  posts           Post[]
-  transactions    Transaction[]
-  bids            Bid[]
+  notifications    Notification[]
+  messagesSent     Message[]      @relation("MessageSender")
+  messagesReceived Message[]      @relation("MessageReceiver")
+  events           Event[]
+  posts            Post[]
+  transactions     Transaction[]
+  bids             Bid[]
 }
 
 model Notification {
-  notification_id Int       @id @default(autoincrement())
+  notification_id Int      @id @default(autoincrement())
   title           String
   content         String
-  isRead          Boolean   @default(false)
-  createdAt       DateTime  @default(now())
+  isRead          Boolean  @default(false)
+  createdAt       DateTime @default(now())
 
   // Relations
-  user_id         Int
-  user            User      @relation(fields: [user_id], references: [user_id])
+  user_id Int
+  user    User @relation(fields: [user_id], references: [user_id])
 }
 
 model Message {
-  message_id Int       @id @default(autoincrement())
+  message_id Int      @id @default(autoincrement())
   content    String
-  isRead     Boolean   @default(false)
-  createdAt  DateTime  @default(now())
+  isRead     Boolean  @default(false)
+  createdAt  DateTime @default(now())
 
   // Relations
-  sender_id  Int
+  sender_id   Int
   receiver_id Int
-  sender     User      @relation("MessageSender", fields: [sender_id], references: [user_id])
-  receiver   User      @relation("MessageReceiver", fields: [receiver_id], references: [user_id])
+  sender      User @relation("MessageSender", fields: [sender_id], references: [user_id])
+  receiver    User @relation("MessageReceiver", fields: [receiver_id], references: [user_id])
 }
 
 model Event {
-  event_id    Int       @id @default(autoincrement())
+  event_id    Int      @id @default(autoincrement())
   title       String
   description String
   status      String
   startTime   DateTime
   endTime     DateTime
-  createdAt   DateTime  @default(now())
+  createdAt   DateTime @default(now())
 
   // Relations
-  user_id     Int
-  user        User      @relation(fields: [user_id], references: [user_id])
-  posts       Post[]
-  bids        Bid[]
+  user_id Int
+  user    User   @relation(fields: [user_id], references: [user_id])
+  posts   Post[]
+  bids    Bid[]
 }
 
 model Post {
-  post_id     Int       @id @default(autoincrement())
+  post_id     Int      @id @default(autoincrement())
   title       String
   description String
   price       Float
   isRequest   Boolean
   status      String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   // Relations
   user_id     Int
   category_id Int
   event_id    Int?
 
-  user        User      @relation(fields: [user_id], references: [user_id])
-  category    Category  @relation(fields: [category_id], references: [category_id])
-  event       Event?    @relation(fields: [event_id], references: [event_id])
+  user         User          @relation(fields: [user_id], references: [user_id])
+  category     Category      @relation(fields: [category_id], references: [category_id])
+  event        Event?        @relation(fields: [event_id], references: [event_id])
   transactions Transaction[]
+  Bid          Bid[]
 }
 
 model Transaction {
-  transaction_id Int       @id @default(autoincrement())
+  transaction_id Int      @id @default(autoincrement())
   amount         Float
   method         String
   status         String
-  createdAt      DateTime  @default(now())
+  createdAt      DateTime @default(now())
 
   // Relations
-  post_id        Int
-  user_id        Int
+  post_id Int
+  user_id Int
 
-  post           Post      @relation(fields: [post_id], references: [post_id], onDelete: Cascade)
-  user           User      @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  post Post @relation(fields: [post_id], references: [post_id], onDelete: Cascade)
+  user User @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
 }
 
 model Bid {
-  bid_id    Int       @id @default(autoincrement())
+  bid_id    Int      @id @default(autoincrement())
   bidAmount Float
   status    String
-  createdAt DateTime  @default(now())
+  createdAt DateTime @default(now())
 
   // Relations
-  user_id   Int
-  event_id  Int
-  product_id Int
+  user_id  Int
+  event_id Int
+  post_id  Int
 
-  user      User      @relation(fields: [user_id], references: [user_id])
-  event     Event     @relation(fields: [event_id], references: [event_id], onDelete: Cascade)
+  user  User  @relation(fields: [user_id], references: [user_id])
+  event Event @relation(fields: [event_id], references: [event_id], onDelete: Cascade)
+  post  Post  @relation(fields: [post_id], references: [post_id], onDelete: Cascade)
 }
 
 model Category {
-  category_id Int       @id @default(autoincrement())
+  category_id Int    @id @default(autoincrement())
   title       String
   description String
 
   // Relations
-  posts       Post[]
+  posts Post[]
 }
