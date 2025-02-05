@@ -22,9 +22,21 @@ import SingleRequestPage from "@/components/singleRequestPage/SingleRequestPage"
 import SingleResourcePage from "@/components/singleResourcePage/SingleResourcePage";
 import Image from "next/image";
 
+import ProtectedRoute from "@/components/ProtectedRoute";
+
 export default function Home() {
   return (
     <>
+
+    {/* <ProtectedRoute>
+      <div>
+        <h1>Welcome to the Home Page</h1>
+        <p>You are logged in!</p>
+      </div>
+    </ProtectedRoute> */}
+
+
+
       <HomePage />
       {/* <p>Hello</p> */}
       {/* <Header/> */}

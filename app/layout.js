@@ -4,6 +4,10 @@ import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
 import HeaderAuth from "@/components/headerAuth/HeaderAuth";
 
+// import { Provider } from "react-redux";
+// import store from "@/redux/store";
+
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -28,15 +32,17 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {
-          authenticated ? (
-            <HeaderAuth />
-          ) : (
-            <Header />
-          )
-        }
-        {children}
-        <Footer />
+        {/* <Provider store={store}>           */}
+          {
+            authenticated ? (
+              <HeaderAuth />
+            ) : (
+              <Header />
+            )
+          }
+          {children}
+          <Footer />
+        {/* </Provider> */}
       </body>
     </html>
   );

@@ -1,10 +1,10 @@
 'use client'
 import React from 'react'
 import Button from '../button/Button'
-import RegistrationPage from '../RegistrationPage/RegistrationPage'
+import { useRouter } from 'next/navigation'
 
 function HomePage() {
-  const [registerPage, setRegisterPage] = React.useState(false)
+  const router = useRouter();
 
   return (
     <>
@@ -23,17 +23,12 @@ function HomePage() {
           <Button 
             variant='black' 
             size='md'
-            onClick={() => setRegisterPage(true)}
+            onClick={() => router.push('/register')}
           >
             Join Us
           </Button>
         </div>
       </div>
-
-      {/* Unchanged modal rendering logic */}
-      {registerPage && (
-        <RegistrationPage onClose={() => setRegisterPage(false)} />
-      )}
     </>
   )
 }

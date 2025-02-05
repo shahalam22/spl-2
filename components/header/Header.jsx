@@ -3,9 +3,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import Button from '../button/Button'
-import RegistrationPage from '../RegistrationPage/RegistrationPage'
-import LoginPage from '../loginPage/LoginPage'
 import logo from '@/public/c4clogo_transparent.png'
+import { useRouter } from 'next/navigation'
 
 const navigationLinks = [
   { path: '/', label: 'Home' },
@@ -22,14 +21,8 @@ const UserIcon = () => (
 )
 
 function Header() {
-  const [modals, setModals] = React.useState({
-    register: false,
-    login: false
-  })
 
-  const toggleModal = (modalName, isOpen) => {
-    setModals(prev => ({ ...prev, [modalName]: isOpen }))
-  }
+  const router = useRouter();
 
   return (
     <>
@@ -58,7 +51,7 @@ function Header() {
           <Button 
             variant='cyan' 
             size='sm' 
-            onClick={() => toggleModal('login', true)}
+            onClick={() => router.push('/login')}
             aria-label="Login"
           >
             <div className='flex items-center justify-center gap-2'>
@@ -70,21 +63,13 @@ function Header() {
           <Button 
             variant='black' 
             size='sm' 
-            onClick={() => toggleModal('register', true)}
+            onClick={() => router.push('/register')}
             aria-label="Sign up"
           >
             Sign Up
           </Button>
         </div>
       </header>
-
-      {modals.register && (
-        <RegistrationPage onClose={() => toggleModal('register', false)} />
-      )}
-      
-      {modals.login && (
-        <LoginPage onClose={() => toggleModal('login', false)} />
-      )}
     </>
   )
 }
