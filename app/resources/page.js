@@ -1,3 +1,6 @@
+// THIS IS RESOURCES PAGE. PATH: app\resources\page.js
+
+
 'use client'
 import Button from '@/components/button/Button'
 import ResourceCard from '@/components/resourceCard/ResourceCard'
@@ -8,7 +11,7 @@ import {FaSearch} from 'react-icons/fa'
 const resources = [
     {
       id: 1,
-      category: "office_supply",
+      category: "Office Supply",
       condition: "used",
       exchangeOption: "free",
       location: "Chicago",

@@ -52,12 +52,41 @@ export const getEventMessages = catchAsync(async (req, res) => {
   res.status(200).json({ success: true, data: messages });
 });
 
+// Update message status restricted to the sender of the message
 export const updateMessageStatus = catchAsync(async (req, res) => {
-  const message = await messageService.updateMessageStatus(req.params.messageId, req.body.isRead);
-  res.status(200).json({ success: true });
+  const message = await messageService.getMessageById(req.params.messageId);
+
+  if (!message || message.sender_id !== req.user.user_id) {
+    return res.status(403).json({
+      success: false,
+      message: "You are not authorized to update this message",
+    });
+  }
+
+  const updatedMessage = await messageService.updateMessageStatus(req.params.messageId, req.body.isRead);
+
+  res.status(200).json({
+    success: true,
+    message: "Message status updated successfully",
+    data: updatedMessage,
+  });
 });
 
+// Delete message restricted to the sender of the message
 export const deleteMessage = catchAsync(async (req, res) => {
-  const message = await messageService.deleteMessage(req.params.messageId);
-  res.status(200).json({ success: true });
+  const message = await messageService.getMessageById(req.params.messageId);
+
+  if (!message || message.sender_id !== req.user.user_id) {
+    return res.status(403).json({
+      success: false,
+      message: "You are not authorized to delete this message",
+    });
+  }
+
+  await messageService.deleteMessage(req.params.messageId);
+
+  res.status(200).json({
+    success: true,
+    message: "Message deleted successfully",
+  });
 });

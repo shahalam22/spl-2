@@ -1,3 +1,6 @@
+// THIS IS NOTIFICATION PAGE. PATH: app\notifications\page.js
+
+
 import Button from '@/components/button/Button';
 import SingleNotification from '@/components/singleNotification/SingleNotification'
 import React from 'react'

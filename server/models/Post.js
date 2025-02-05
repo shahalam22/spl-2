@@ -13,7 +13,7 @@ class Post {
       this.updatedAt = updatedAt;
     }
   
-    // Method to update post details
+    // update post details
     updateDetails({ title, description, price }) {
       if (title) this.title = title;
       if (description) this.description = description;
@@ -21,13 +21,13 @@ class Post {
       this.updatedAt = new Date();
     }
   
-    // Method to mark post as sold
+    // mark post as sold
     markAsSold() {
       this.status = "sold";
       this.updatedAt = new Date();
     }
   
-    // Method to associate post with an event
+    // associate post with an event
     associateWithEvent(event_id) {
       this.event_id = event_id;
       this.updatedAt = new Date();

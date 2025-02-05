@@ -21,10 +21,10 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
 
-  const authenticated = true;
+  const authenticated = false;
 
   return (
-    <html lang="en">
+    <html lang="en" data-arp="">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
