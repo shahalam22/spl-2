@@ -1,4 +1,5 @@
 // THIS IS MAIN PAGE. PATH: app\page.js
+'use client';
 
 
 import BidDialogue from "@/components/bidDialogue/BidDialogue";
@@ -23,8 +24,15 @@ import SingleResourcePage from "@/components/singleResourcePage/SingleResourcePa
 import Image from "next/image";
 
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { useAppSelector } from "@/redux/hooks";
 
 export default function Home() {
+
+  const { user } = useAppSelector((state) => state.auth);
+
+  // console.log(user);
+  
+
   return (
     <>
 
@@ -35,9 +43,10 @@ export default function Home() {
       </div>
     </ProtectedRoute> */}
 
-
+      {user ? <HeaderAuth /> : <Header />}
 
       <HomePage />
+
       {/* <p>Hello</p> */}
       {/* <Header/> */}
       {/* <HeaderAuth/> */}

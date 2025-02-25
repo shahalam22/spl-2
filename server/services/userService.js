@@ -34,7 +34,7 @@ import bcrypt from "bcryptjs";
 
 // Register a new user
 export const createUser = async (userData) => {
-  const { username, email, password, profilePicture } = userData;
+  const { username, email, password} = userData;
 
   // Hash the password before saving
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -44,7 +44,6 @@ export const createUser = async (userData) => {
       username,
       email,
       hashedPassword,
-      profilePicture,
     },
   });
 };

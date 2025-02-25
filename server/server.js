@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
@@ -14,8 +15,15 @@ dotenv.config();
 
 const app = express();
 
+// Enable CORS for localhost:3000
+app.use(cors({
+  origin: 'http://localhost:3000', // Allow requests from your Next.js frontend
+  credentials: true, // Allow cookies, authorization headers, etc., if needed
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+}));
+
 app.use(express.json());
-+
 
 // Routes
 app.use("/api/users", userRoutes);

@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import regImage from '@/public/reg_page.jpg';
 import logo from '@/public/c4clogo_transparent.png';
@@ -7,6 +7,8 @@ import Button from '@/components/button/Button';
 import Link from 'next/link';
 import { FaApple, FaFacebook, FaGoogle } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { registerUser } from '@/redux/features/authSlice';
 
 const SOCIAL_LOGIN_BUTTONS = [
   { icon: <FaGoogle />, label: 'Sign in with Google' },
@@ -15,12 +17,37 @@ const SOCIAL_LOGIN_BUTTONS = [
 ];
 
 function Registration() {
-  const handleFormSubmit = (e) => {
+  const [formData, setFormData] = useState({ username:"", email: "", password: "", confirmPassword: "" });
+  const dispatch = useAppDispatch(); // Add dispatcher hook
+  const { loading, error } = useAppSelector((state) => state.auth); // Access loading and error states
+  const router = useRouter();
+
+  const handleInputChange = (e) => {
     e.preventDefault();
-    // Handle form submission logic here
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    
+    // console.log(e.target.value);
+    
   };
 
-  const router = useRouter();
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // Dispatch the loginUser action with form data
+      // console.log(formData);
+      
+      
+      const result = await dispatch(registerUser(formData));
+
+      // Check if the action was fulfilled (successful login)
+      if (registerUser.fulfilled.match(result)) {
+        router.push("/"); // Redirect to home on success
+      }
+    } catch (err) {
+      console.error("Registration error:", err); // Log any unexpected errors
+    }
+  };
 
   return (
     <div
@@ -45,13 +72,49 @@ function Registration() {
           <Image className="max-w-[200px] mx-auto mb-5" src={logo} alt="logo" />
           <form onSubmit={handleFormSubmit}>
             <div className="flex flex-col justify-center items-center gap-3 w-[90%] mx-auto">
-              <FormInput label="Username" id="username" name="username" type="text" required />
-              <FormInput label="Email" id="email" name="email" type="email" required />
-              <FormInput label="Enter Password" id="pass" name="pass" type="password" required />
-              <FormInput label="Confirm Password" id="con_pass" name="con_pass" type="password" required />
-              <Button variant="cyan" size="block" type="submit">
+              <FormInput 
+                label="Enter Username" 
+                id="username" 
+                name="username" 
+                type="text"
+                value={formData.username}
+                onChange={handleInputChange} 
+                required
+              />
+              <FormInput 
+                label="Enter Email" 
+                id="email" 
+                name="email" 
+                type="email"
+                value={formData.email}
+                onChange={handleInputChange} 
+                required
+              />
+              <FormInput 
+                label="Enter Password" 
+                id="password"
+                name="password" 
+                type="password"
+                value={formData.password}
+                onChange={handleInputChange} 
+                required
+              />
+              <FormInput 
+                label="Confirm Password" 
+                id="confirmPassword" 
+                name="confirmPassword" 
+                type="password" 
+                value={formData.confirmPassword} 
+                onChange={handleInputChange}
+                required 
+              />
+              {/* <Button variant="cyan" size="block" type="submit">
                 Register
+              </Button> */}
+              <Button variant="cyan" size="block" type="submit" disabled={loading}>
+                {loading ? "Creating Account..." : "Register"}
               </Button>
+              {error && <p className="text-red-500 text-sm">{error}</p>}
             </div>
           </form>
 
@@ -88,19 +151,23 @@ function Registration() {
 }
 
 // Reusable Form Input Component
-const FormInput = ({ label, id, name, type, required }) => (
-  <div className="flex flex-col w-full">
-    <label className="text-sm font-normal mb-1" htmlFor={id}>
-      {label}
-    </label>
-    <input
-      className="w-full h-8 px-2 border border-gray-300 rounded-md"
-      type={type}
-      id={id}
-      name={name}
-      required={required}
-    />
-  </div>
-);
+function FormInput({ label, id, name, type, value, onChange, required }) {
+  return (
+    <div className="flex flex-col w-full">
+      <label className="text-sm font-normal mb-1" htmlFor={id}>
+        {label}
+      </label>
+      <input
+        className="w-full h-8 px-2 border border-gray-300 rounded-md"
+        type={type}
+        id={id}
+        name={name}
+        value={value}
+        onChange={onChange}
+        required={required}
+      />
+    </div>
+  );
+}
 
 export default Registration;

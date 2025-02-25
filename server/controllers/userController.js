@@ -35,7 +35,14 @@ import jwt from "jsonwebtoken";
 
 // Register a new user
 export const registerUser = catchAsync(async (req, res) => {
-  const { username, email, password, profilePicture } = req.body;
+  const { username, email, password, confirmPassword } = req.body;
+
+  // console.log(
+  //   username,
+  //   email,
+  //   password,
+  //   confirmPassword
+  // );
 
   // Check if the username or email already exists
   const existingUserByEmail = await userService.getUserByEmail(email);
@@ -48,13 +55,25 @@ export const registerUser = catchAsync(async (req, res) => {
     return res.status(400).json({ success: false, message: "Username already in use" });
   }
 
+  if(password !== confirmPassword) {
+    return res.status(400).json({ success: false, message: "Passwords do not match" });
+  }
+
   // Create the user
-  const newUser = await userService.createUser({ username, email, password, profilePicture });
+  const newUser = await userService.createUser({ username, email, password});
+
+  // Generate a JWT token
+  const token = jwt.sign({ id: newUser.user_id }, process.env.JWT_SECRET, {
+    expiresIn: "7d",
+  });
+
+  // Update last login
+  await userService.updateUser(newUser.user_id, { lastLogin: new Date() });
 
   res.status(201).json({
     success: true,
     message: "User registered successfully",
-    data: { user_id: newUser.user_id, username: newUser.username, email: newUser.email },
+    data: { token, user_id: newUser.user_id, username: newUser.username, email: newUser.email },
   });
 });
 
@@ -62,6 +81,9 @@ export const registerUser = catchAsync(async (req, res) => {
 export const loginUser = catchAsync(async (req, res) => {
   const { email, password } = req.body;
 
+  // console.log(email, password);
+  
+  
   // Find the user by email
   const user = await userService.getUserByEmail(email);
   if (!user) {

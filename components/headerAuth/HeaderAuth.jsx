@@ -1,8 +1,12 @@
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import Button from '../button/Button';
 import logo from '@/public/c4clogo_black_transparent.png';
+import { useAppDispatch } from '@/redux/hooks';
+import { logout } from '@/redux/features/authSlice';
+import { useRouter } from 'next/navigation';
 
 const NAV_LINKS = [
   { path: '/', label: 'Dashboard' },
@@ -31,6 +35,15 @@ const ICON_BUTTONS = [
 ];
 
 function HeaderAuth() {
+
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    router.push('/');
+  }
+
   return (
     <header className='flex justify-between items-center p-4 md:p-8 bg-black text-white'>
       {/* Logo */}
@@ -65,7 +78,7 @@ function HeaderAuth() {
         </button>
 
         {/* Logout Button */}
-        <button className='group'>
+        <button className='group' onClick={handleLogout}>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             height='24'
