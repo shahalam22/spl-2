@@ -77,6 +77,14 @@ model Post {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  quantity    Int?
+  condition   String?
+  location    Json?
+  pickup      Json?
+  delivery    String?
+  impactinfo  String?
+  images      String[]
+
   // Relations
   user_id     Int
   category_id Int
