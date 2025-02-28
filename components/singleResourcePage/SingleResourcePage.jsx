@@ -3,6 +3,7 @@ import './SingleResourcePage.css'
 import Button from '../button/Button'
 import Image from 'next/image'
 import { FaLocationArrow, FaSearchLocation, FaShare } from 'react-icons/fa'
+import { useAppSelector } from '@/redux/hooks'
 
 const resource = {
   title: "Carpentry Service",
@@ -21,7 +22,12 @@ const resource = {
   images: ["grant1.jpg", "grant2.jpg", "grant3.jpg"],
 }
 
-function SingleResourcePage({onClose}) {
+function SingleResourcePage({onClose, resourceId}) {
+  const resource = useAppSelector((state) => state.posts.posts.find((post) => post.post_id === resourceId));
+
+  console.log(resource);
+  
+
   return (
     <div className='fixed inset-0 z-10 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center' onClick={onClose}>
       <div className='single-resource-page rounded-lg' onClick={(e)=>e.stopPropagation()}>
@@ -47,7 +53,7 @@ function SingleResourcePage({onClose}) {
             </div>
             <div className='single-resource-page-left-location bg-[#FFBF61] py-2 px-4 rounded-lg flex items-center gap-2 w-fit'>
               <svg className='card-view-footer-icon' xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 384 512"><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
-              <p className='text-sm'>{resource.location}</p>
+              <p className='text-sm'>{resource.location.street+", "+resource.location.state+", "+resource.location.city+", "+resource.location.country}</p>
             </div>
             
           </div>
@@ -74,7 +80,7 @@ function SingleResourcePage({onClose}) {
         <div className='single-resource-page-right w-[50%] flex flex-col gap-2 pt-5'>
           <h1 className='font-bold text-2xl'>{resource.title}</h1>
           <div className='single-resource-page-right-tags flex gap-2 justify-start'>
-            <img className='max-w-[80px] max-h-6 rounded-xl' src={`/${resource.category}_text.jpg`} alt="cat_image" />
+            <img className='max-w-[80px] max-h-6 rounded-xl' src={`/${resource.category_id}_text.jpg`} alt="cat_image" />
             <img className='max-h-6 rounded-lg' src={`/${resource.condition}.jpg`} alt="condition_image" />
           </div>
           <div className='text-normal mt-4 flex flex-col'>
@@ -103,22 +109,3 @@ function SingleResourcePage({onClose}) {
 }
 
 export default SingleResourcePage
-
-
-
-  // {
-  //      title: "Carpentry Service",
-  //      description: "A high-quality product in excellent condition.",
-  //      price: 338,
-  //      quantity: 1,
-  //      category: "office_supply",
-  //      condition: "used",
-  //      pickup: {
-  //         date: "2022-03-30",
-  //         time: "12:00",
-  //      },
-  //      delivery: "Local delivery available within a 10 mile radius (delivery fee may apply)",
-  //      location: "Chicago",
-  //      impactinfo: "This service will help you build a strong foundation for your project.",
-  //      images: ["/public/grant1.jpg", "/public/grant2.jpg", "/public/grant3.jpg"],
-  // }

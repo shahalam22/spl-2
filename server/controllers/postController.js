@@ -2,7 +2,10 @@ import * as postService from "../services/postService.js";
 import catchAsync from "../utils/catchAsync.js";
 
 export const createPost = catchAsync(async (req, res) => {
-  const post = await postService.createPost({ ...req.body, user_id: req.user.user_id });
+
+  console.log(req.body);
+  
+  const post = await postService.createPost({ ...req.body, user_id: req.body.user_id });
   res.status(201).json({ success: true, data: post });
 });
 
@@ -13,6 +16,10 @@ export const getPost = catchAsync(async (req, res) => {
 
 export const getAllPosts = catchAsync(async (req, res) => {
   const posts = await postService.getAllPosts();
+
+  // console.log("log from postController.js", posts);
+  
+
   res.status(200).json({ success: true, data: posts });
 });
 

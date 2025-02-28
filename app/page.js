@@ -36,13 +36,6 @@ export default function Home() {
   return (
     <>
 
-    {/* <ProtectedRoute>
-      <div>
-        <h1>Welcome to the Home Page</h1>
-        <p>You are logged in!</p>
-      </div>
-    </ProtectedRoute> */}
-
       {user ? <HeaderAuth /> : <Header />}
 
       <HomePage />

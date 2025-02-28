@@ -1,36 +1,21 @@
 // variant - viewcard, editcard
 
-  // {
-  //     category: "office_supply",
-  //     condition: "used",
-  //     exchangeOption: "free",
-  //     location: "Chicago",
-  //     title: "Carpentry Service",
-  //     description: "A high-quality product in excellent condition.",
-  //     price: 338,
-  //     image: "/public/grant1.jpg",
-  //   },
-
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import './ResourceCard.css';
 import Button from '../button/Button';
 import SingleResourcePage from '../singleResourcePage/SingleResourcePage';
 import ResourceForm from '../resourceForm/ResourceForm';
+import { useAppSelector } from '@/redux/hooks';
 
 function ResourceCard({
-  variant,
-  category,
-  condition,
-  exchangeOption,
-  location,
-  title,
-  description,
-  price,
-  image,
+  resourceId,
+  variant
 }) {
   const [showCard, setShowCard] = React.useState(false);
   const [showEdit, setShowEdit] = React.useState(false);
+
+  const resource = useAppSelector((state) => state.posts.posts.find((post) => post.post_id === resourceId));
 
   const toggleCardDetails = () => setShowCard((prev) => !prev);
   const toggleEditDetails = () => setShowEdit((prev) => !prev);
@@ -40,26 +25,26 @@ function ResourceCard({
       <div className="card" onClick={toggleCardDetails}>
         {/* Image Section */}
         <div className="card-image-container">
-          <img src={`/${image}`} alt={title} className="card-image" />
+          <img src={`/${resource.image}`} alt={resource.title} className="card-image" />
           <div className="card-category">
             <img
-              src={`/${category}.jpg`}
+              src={`/${resource.category_id}.jpg`}
               alt="Category Icon"
               className="card-category-icon"
             />
-            <p className="card-category-text">{category}</p>
+            <p className="card-category-text">{resource.category_id}</p>
           </div>
         </div>
 
         {/* Header Section */}
         <div className="card-header">
           <img
-            src={`/${condition}.jpg`}
+            src={`/${resource.condition}.jpg`}
             alt="Condition Icon"
             className="card-header-icon"
           />
           <img
-            src={`/${exchangeOption}.jpg`}
+            src={`/${resource.exchangeOption}.jpg`}
             alt="Exchange Option Icon"
             className="card-header-icon"
           />
@@ -67,9 +52,9 @@ function ResourceCard({
 
         {/* Body Section */}
         <div className="card-body">
-          <h3 className="card-title">{title}</h3>
-          <p className="card-description">{description}</p>
-          <p className="card-price">{price > 0 ? `$${price}` : 'Free'}</p>
+          <h3 className="card-title">{resource.title}</h3>
+          <p className="card-description">{resource.description}</p>
+          <p className="card-price">{resource.price > 0 ? `$${resource.price}` : 'Free'}</p>
         </div>
 
         {/* Footer Section */}
@@ -84,7 +69,10 @@ function ResourceCard({
             >
               <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" />
             </svg>
-            <span className="card-view-footer-text">{location}</span>
+            <span className="card-view-footer-text">{resource.location.state+", "+resource.location.city}</span>
+            {/* {
+              console.log(resource.location)
+            } */}
           </div>
         )}
 
@@ -113,56 +101,10 @@ function ResourceCard({
       </div>
 
       {/* Modals */}
-      {showCard && <SingleResourcePage onClose={toggleCardDetails} />}
+      {showCard && <SingleResourcePage onClose={toggleCardDetails} resourceId={resource.post_id}/>}
       {showEdit && <ResourceForm onClose={toggleEditDetails} />}
     </>
   );
 }
 
 export default ResourceCard;
-
-
-
-
-// const cardList = [
-//   {
-//     category: "office_supply",
-//     condition: "used",
-//     exchangeOption: "free",
-//     location: "Chicago",
-//     title: "Carpentry Service",
-//     description: "A high-quality product in excellent condition.",
-//     price: 338,
-//     image: "/public/grant1.jpg",
-//   },
-//   {
-//     category: "material",
-//     condition: "surplus",
-//     exchangeOption: "sale",
-//     location: "San Antonio",
-//     title: "Vintage Desk Chair",
-//     description: "A high-quality product in excellent condition.",
-//     price: 0,
-//     image: "/public/grant2.jpg",
-//   },
-//   {
-//     category: "equipment",
-//     condition: "surplus",
-//     exchangeOption: "sale",
-//     location: "San Antonio",
-//     title: "Running Shoes",
-//     description: "Affordable and ready for immediate use.",
-//     price: 215,
-//     image: "/public/grant3.jpg",
-//   },
-//   {
-//     category: "cloth",
-//     condition: "surplus",
-//     exchangeOption: "sale",
-//     location: "New York",
-//     title: "Construction Material",
-//     description: "Lightly used with minimal signs of wear.",
-//     price: 255,
-//     image: "/public/grant4.jpg",
-//   },
-// ];

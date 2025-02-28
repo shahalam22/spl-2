@@ -8,9 +8,13 @@ Folder structure for: F:\spl-2
         ├── 📁 [id]/
             └── 📄 page.js
         └── 📄 page.js
+    ├── 📁 login/
+        └── 📄 page.js
     ├── 📁 messages/
         └── 📄 page.js
     ├── 📁 notifications/
+        └── 📄 page.js
+    ├── 📁 register/
         └── 📄 page.js
     ├── 📁 requests/
         └── 📄 page.js
@@ -86,9 +90,11 @@ Folder structure for: F:\spl-2
     ├── 📁 singleRequestPage/
         ├── 📄 SingleRequestPage.css
         └── 📄 SingleRequestPage.jsx
-    └── 📁 singleResourcePage/
+    ├── 📁 singleResourcePage/
         ├── 📄 SingleResourcePage.css
         └── 📄 SingleResourcePage.jsx
+    ├── 📄 ClientWrapper.jsx
+    └── 📄 ProtectedRoute.jsx
 ├── 📁 prisma/
     ├── 📁 migrations/
         ├── 📁 20250117220250_init/
@@ -99,6 +105,12 @@ Folder structure for: F:\spl-2
     ├── 📄 schema.prisma
     ├── 📄 seed.js
     └── 📄 testSeed.js
+├── 📁 redux/
+    ├── 📁 features/
+        └── 📄 authSlice.js
+    ├── 📄 axiosInstance.js
+    ├── 📄 hooks.js
+    └── 📄 store.js
 ├── 📁 server/
     ├── 📁 controllers/
         ├── 📄 bidController.js

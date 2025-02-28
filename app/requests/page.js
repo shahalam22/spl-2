@@ -3,8 +3,11 @@
 
 'use client'
 import Button from '@/components/button/Button'
+import Header from '@/components/header/Header'
+import HeaderAuth from '@/components/headerAuth/HeaderAuth'
 import RequestCard from '@/components/requestCard/RequestCard'
 import RequestForm from '@/components/requestForm/RequestForm'
+import { useAppSelector } from '@/redux/hooks'
 import React from 'react'
 import {FaSearch} from 'react-icons/fa'
 
@@ -67,7 +70,7 @@ const requests = [
 
 function Requests() {
 
-    const authenticated = true
+    const { user } = useAppSelector((state) => state.auth);
 
     const [openForm, setOpenForm] = React.useState(false)
 
@@ -81,11 +84,12 @@ function Requests() {
 
   return (
     <>
+        {user ? <HeaderAuth /> : <Header />}
         <div className='flex flex-col items-center mt-10 mb-24'>
             <div className='flex justify-between items-center w-[100%] px-12'>
               <h1 className='text-3xl font-semibold'>Requests</h1>
               {
-                authenticated && (
+                user && (
                     <div className='flex gap-2'>
                       <div className='w-28'>
                         <Button variant='black' size='block' onClick={openRequestForm}>Add Request</Button>
@@ -130,7 +134,7 @@ function Requests() {
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[100%] p-5'>
                     {
                         requests.map((request) => (
-                            <RequestCard key={request.id} category={request.category} condition={request.condition} description={request.description} exchangeOption={request.exchangeOption} location={request.location} title={request.title} variant={authenticated?'editcard':'viewcard'}/>
+                            <RequestCard key={request.id} category={request.category} condition={request.condition} description={request.description} exchangeOption={request.exchangeOption} location={request.location} title={request.title} variant={user?'editcard':'viewcard'}/>
                         ))
                     }
                 </div>
