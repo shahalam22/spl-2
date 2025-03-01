@@ -25,6 +25,8 @@ app.use(cors({
 
 app.use(express.json());
 
+app.use("/uploads", express.static("uploads"));
+
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);

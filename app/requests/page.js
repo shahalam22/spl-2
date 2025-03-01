@@ -7,8 +7,9 @@ import Header from '@/components/header/Header'
 import HeaderAuth from '@/components/headerAuth/HeaderAuth'
 import RequestCard from '@/components/requestCard/RequestCard'
 import RequestForm from '@/components/requestForm/RequestForm'
-import { useAppSelector } from '@/redux/hooks'
-import React from 'react'
+import { fetchAllPosts } from '@/redux/features/postsSlice'
+import { useAppDispatch, useAppSelector } from '@/redux/hooks'
+import React, { useEffect, useRef } from 'react'
 import {FaSearch} from 'react-icons/fa'
 
 const requests = [
@@ -69,36 +70,50 @@ const requests = [
 ]
 
 function Requests() {
+  const dispatch = useAppDispatch();
+  const { posts, loading, error } = useAppSelector((state) => state.posts);
+  const authenticated = useAppSelector((state) => !!state.auth.user);
+  const userId = useAppSelector((state) => state.auth.user?.user_id);
 
-    const { user } = useAppSelector((state) => state.auth);
+  const [openForm, setOpenForm] = React.useState(false)
+  const openRequestForm = () => { setOpenForm(true)}
+  const closeRequestForm = () => { setOpenForm(false)}
 
-    const [openForm, setOpenForm] = React.useState(false)
+  const refToMyRequests = useRef(null);
+  const refToOtherRequests = useRef(null);
+  const scrollToMyRequests = () => {
+    refToMyRequests.current.scrollIntoView({ behavior: 'smooth' });
+  }
+  const scrollToOtherRequests = () => {
+    refToOtherRequests.current.scrollIntoView({ behavior: 'smooth' });
+  }
 
-    const openRequestForm = () => {
-        setOpenForm(true)
-    }
+  useEffect(() => {
+    dispatch(fetchAllPosts());
+  }, [dispatch]);
 
-    const closeRequestForm = () => {
-        setOpenForm(false)
-    }
+  const requests = posts.filter((post) => post.isRequest); // Filter for requests
+
+  if (loading) return <p>Loading requests...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <>
-        {user ? <HeaderAuth /> : <Header />}
+        {authenticated ? <HeaderAuth /> : <Header />}
         <div className='flex flex-col items-center mt-10 mb-24'>
             <div className='flex justify-between items-center w-[100%] px-12'>
               <h1 className='text-3xl font-semibold'>Requests</h1>
               {
-                user && (
+                authenticated && (
                     <div className='flex gap-2'>
                       <div className='w-28'>
                         <Button variant='black' size='block' onClick={openRequestForm}>Add Request</Button>
                       </div>
                       <div className='w-28'>
-                        <Button variant='black' size='block'>Your Requests</Button>
+                        <Button variant='black' size='block' onClick={scrollToMyRequests}>Your Requests</Button>
                       </div>
                       <div className='w-28'>
-                        <Button variant='black' size='block'>Request Posts</Button>
+                        <Button variant='black' size='block' onClick={scrollToOtherRequests}>Request Posts</Button>
                       </div>
                     </div>
                 )
@@ -130,11 +145,23 @@ function Requests() {
                 </div>
             </div>
             <div className='w-[85%] h-[1px] bg-gray-300'/>
+            <h1 ref={refToOtherRequests} className='text-2xl mt-5 font-semibold'>Requests</h1>
             <div className="flex justify-center items-center">
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[100%] p-5'>
                     {
-                        requests.map((request) => (
-                            <RequestCard key={request.id} category={request.category} condition={request.condition} description={request.description} exchangeOption={request.exchangeOption} location={request.location} title={request.title} variant={user?'editcard':'viewcard'}/>
+                        requests.filter((request) => request.user_id !== userId).map((request) => (
+                            <RequestCard key={request.post_id} request={request} variant={'viewcard'}/>
+                        ))
+                    }
+                </div>
+            </div>
+            <div className='w-[85%] h-[1px] bg-gray-300'/>
+            <h1 ref={refToMyRequests} className='text-2xl mt-5 font-semibold'>My Requests</h1>
+            <div className="flex justify-center items-center">
+                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[100%] p-5'>
+                    {
+                      requests.filter((request) => request.user_id === userId).map((request) => (
+                            <RequestCard key={request.post_id} request={request} variant={'editcard'}/>
                         ))
                     }
                 </div>

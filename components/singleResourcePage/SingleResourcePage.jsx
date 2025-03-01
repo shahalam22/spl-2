@@ -25,7 +25,7 @@ const resource = {
 function SingleResourcePage({onClose, resourceId}) {
   const resource = useAppSelector((state) => state.posts.posts.find((post) => post.post_id === resourceId));
 
-  console.log(resource);
+  // console.log(resource);
   
 
   return (

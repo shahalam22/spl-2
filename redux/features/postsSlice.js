@@ -12,10 +12,6 @@ export const fetchAllPosts = createAsyncThunk(
       if (!response.ok) throw new Error('Failed to fetch posts');
       const data = await response.json();
 
-    //   console.log("log from postsSlice.js", data);
-    //   console.log(data);
-      
-
       return data.data; // Assuming { success: true, data: [...] }
     } catch (error) {
       return rejectWithValue(error.message);
@@ -40,42 +36,66 @@ export const fetchPostById = createAsyncThunk(
   }
 );
 
+
 export const createPost = createAsyncThunk(
-  'posts/create',
+  "posts/create",
   async (postData, { getState, rejectWithValue }) => {
     try {
       const { auth } = getState();
-      const response = await fetch('http://localhost:5000/api/posts/', {
-        method: 'POST',
+      console.log("Auth Token:", auth.user.token); // Check token
+      console.log("Post Data:", postData); // Check data before FormData
+
+      const formData = new FormData();
+      for (const key in postData) {
+        if (key === "images") {
+          console.log("Images:", postData.images); // Check images array
+          postData.images.forEach((file) => formData.append("images", file));
+        } else if (typeof postData[key] === "object") {
+          formData.append(key, JSON.stringify(postData[key]));
+        } else {
+          formData.append(key, postData[key]);
+        }
+      }
+
+      const response = await fetch("http://localhost:5000/api/posts/", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${auth.user.token}`,
         },
-        body: JSON.stringify(postData),
+        body: formData,
       });
-      if (!response.ok) throw new Error('Failed to create post');
-      const data = await response.json();
 
-      console.log(data);
-      
+      const responseText = await response.text(); // Get raw response
+      console.log("Response Status:", response.status);
+      console.log("Response Text:", responseText);
 
-      return data.data; // { success: true, data: {...} }
+      if (!response.ok) throw new Error(`Failed to create post: ${response.status} - ${responseText}`);
+      const data = JSON.parse(responseText);
+
+      console.log("Parsed Data:", data);
+
+      return data.data;
     } catch (error) {
+      console.error("Create Post Error:", error);
       return rejectWithValue(error.message);
     }
   }
 );
 
+
 export const updatePost = createAsyncThunk(
   'posts/update',
   async ({ postId, postData }, { getState, rejectWithValue }) => {
+
+    // console.log("Post ID:", postId, "Post Data:", postData);
+
     try {
       const { auth } = getState();
       const response = await fetch(`http://localhost:5000/api/posts/${postId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${auth.token}`,
+          Authorization: `Bearer ${auth.user.token}`,
         },
         body: JSON.stringify(postData),
       });
@@ -96,7 +116,7 @@ export const deletePost = createAsyncThunk(
       const response = await fetch(`http://localhost:5000/api/posts/${postId}`, {
         method: 'DELETE',
         headers: {
-          Authorization: `Bearer ${auth.token}`,
+          Authorization: `Bearer ${auth.user.token}`,
         },
       });
       if (!response.ok) throw new Error('Failed to delete post');

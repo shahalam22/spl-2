@@ -2,7 +2,8 @@ import React from 'react'
 import Button from '../button/Button'
 import CategoryCard from '../categoryCard/CategoryCard'
 
-const resource_types = ['food','cloth','furniture','material','service','equipment','office_supply']
+const resource_types = ['1','2','3','4','5','6','7']
+const resource_type_title = ['Food','Cloth','Equipment','Service','Office Supply','Furniture','Material']
 
 const condition = ['new','used','surplus','expired']
 
@@ -28,7 +29,7 @@ function CategoryPage() {
                         <p className='text-lg font-semibold'>Resource Type</p>
                         <div className='flex gap-4 md:gap-10 flex-wrap'>
                             {resource_types.map((type) => (
-                                <CategoryCard key={type} category={type} title={type[0].toUpperCase()+type.substring(1,(type.length))}/>
+                                <CategoryCard key={type} category={type} title={resource_type_title[parseInt(type,10)-1]}/>
                             ))}
                         </div>
                     </div>

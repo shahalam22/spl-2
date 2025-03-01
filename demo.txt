@@ -1,0 +1,7 @@
+food
+cloth
+equipment
+service
+office supply
+furniture
+material

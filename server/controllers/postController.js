@@ -1,11 +1,41 @@
 import * as postService from "../services/postService.js";
 import catchAsync from "../utils/catchAsync.js";
 
-export const createPost = catchAsync(async (req, res) => {
+// export const createPost = catchAsync(async (req, res) => {
 
-  console.log(req.body);
+//   const postData = {
+//     ...req.body,
+//     user_id: req.body.user_id,
+//     images: req.files ? req.files.map((file) => `/uploads/${file.filename}`) : [],
+//   }
+
+//   console.log("log from postController.js", postData);
   
-  const post = await postService.createPost({ ...req.body, user_id: req.body.user_id });
+//   const post = await postService.createPost(postData);
+//   res.status(201).json({ success: true, data: post });
+// });
+
+export const createPost = catchAsync(async (req, res) => {
+  const { location, pickup, ...rest } = req.body;
+
+  // Convert and parse fields to match Prisma schema
+  const postData = {
+    ...rest,
+    user_id: parseInt(req.user.user_id, 10), // Ensure user_id is an integer
+    category_id: parseInt(rest.category_id, 10), // Convert string to integer
+    price: parseFloat(rest.price) || 0, // Convert string to float
+    quantity: parseInt(rest.quantity, 10) || 0, // Convert string to integer
+    isRequest: rest.isRequest === "true" || rest.isRequest === true, // Convert string to boolean
+    status: rest.status || "available", // Default if not provided
+    images: req.files ? req.files.map((file) => `/uploads/${file.filename}`) : [], // File paths
+    location: location ? JSON.parse(location) : {}, // Parse JSON string to object
+    pickup: pickup ? JSON.parse(pickup) : {}, // Parse JSON string to object
+    event_id: rest.event_id ? parseInt(rest.event_id, 10) : null, // Optional integer or null
+  };
+
+  console.log("Parsed Post Data for Prisma:", postData);
+
+  const post = await postService.createPost(postData);
   res.status(201).json({ success: true, data: post });
 });
 

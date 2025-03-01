@@ -6,33 +6,44 @@ import './ResourceCard.css';
 import Button from '../button/Button';
 import SingleResourcePage from '../singleResourcePage/SingleResourcePage';
 import ResourceForm from '../resourceForm/ResourceForm';
-import { useAppSelector } from '@/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { deletePost } from '@/redux/features/postsSlice';
 
-function ResourceCard({
-  resourceId,
-  variant
-}) {
+function ResourceCard({ variant, resource}) {
+  const dispatch = useAppDispatch();
   const [showCard, setShowCard] = React.useState(false);
   const [showEdit, setShowEdit] = React.useState(false);
 
-  const resource = useAppSelector((state) => state.posts.posts.find((post) => post.post_id === resourceId));
-
   const toggleCardDetails = () => setShowCard((prev) => !prev);
   const toggleEditDetails = () => setShowEdit((prev) => !prev);
+
+  const handleDelete = async () => {
+    console.log(resource.post_id);
+    
+    try {
+      dispatch(deletePost(resource.post_id));
+    } catch (error) {
+      console.error('Failed to delete post:', error);
+    }
+  }
+
+  const handleEdit = () => {
+    
+  }
 
   return (
     <>
       <div className="card" onClick={toggleCardDetails}>
         {/* Image Section */}
         <div className="card-image-container">
-          <img src={`/${resource.image}`} alt={resource.title} className="card-image" />
+          <img src={`/${resource.images[0]}`} alt={resource.title} className="card-image" />
           <div className="card-category">
             <img
               src={`/${resource.category_id}.jpg`}
               alt="Category Icon"
               className="card-category-icon"
             />
-            <p className="card-category-text">{resource.category_id}</p>
+            <p className="card-category-text">{getCategoryName(resource.category_id)}</p>
           </div>
         </div>
 
@@ -43,11 +54,11 @@ function ResourceCard({
             alt="Condition Icon"
             className="card-header-icon"
           />
-          <img
+          {/* <img
             src={`/${resource.exchangeOption}.jpg`}
             alt="Exchange Option Icon"
             className="card-header-icon"
-          />
+          /> */}
         </div>
 
         {/* Body Section */}
@@ -84,7 +95,7 @@ function ResourceCard({
               </Button>
             </div>
             <div className="w-[20%]">
-              <Button variant="red" size="block">
+              <Button variant="red" size="block" onClick={handleDelete}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="card-edit-footer-icon"
@@ -102,9 +113,32 @@ function ResourceCard({
 
       {/* Modals */}
       {showCard && <SingleResourcePage onClose={toggleCardDetails} resourceId={resource.post_id}/>}
-      {showEdit && <ResourceForm onClose={toggleEditDetails} />}
+      {showEdit && <ResourceForm onClose={toggleEditDetails} data={resource}/>}
     </>
   );
 }
+
+
+const getCategoryName = (id) => {
+  switch (id) {
+    case 1:
+      return 'Food';
+    case 2:
+      return 'Cloth';
+    case 3:
+      return 'Equipment';
+    case 4:
+      return 'Service';
+    case 5:
+      return 'Office Supply';
+    case 6:
+      return 'Furniture';
+    case 7:
+      return 'Material';
+    default:
+      return 'Unknown';
+  }
+};
+
 
 export default ResourceCard;

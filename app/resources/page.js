@@ -100,7 +100,7 @@ function Resources() {
               <ResourceCard
                 key={resource.post_id}
                 variant={'viewcard'}
-                resourceId={resource.post_id}
+                resource={resource}
               />
             ))}
           </div>
@@ -114,6 +114,7 @@ function Resources() {
             .filter((resource) => resource.user_id === userId)
             .map((resource) => (
               <ResourceCard
+                key = {resource.post_id}
                 variant={'editcard'}
                 resource={resource}
               />
