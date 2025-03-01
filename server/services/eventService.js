@@ -1,6 +1,8 @@
 import prisma from "../lib/prisma.js";
 
 export const createEvent = async (eventData) => {
+  // console.log("Eventdata from eventService.js",eventData);
+  
   return await prisma.event.create({ data: eventData });
 };
 
@@ -15,6 +17,7 @@ export const getAllEvents = async () => {
 
 export const updateEvent = async (eventId, eventData) => {
   eventId = parseInt(eventId, 10);
+  
   return await prisma.event.update({
     where: { event_id: eventId },
     data: eventData,

@@ -12,62 +12,6 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import React, { useEffect, useRef } from 'react'
 import {FaSearch} from 'react-icons/fa'
 
-const requests = [
-    {
-      id: 1,
-      category: "office_supply",
-      condition: "used",
-      exchangeOption: "free",
-      location: "Chicago",
-      title: "Carpentry Service",
-      description: "A high-quality product in excellent condition.",
-    },
-    {
-      id: 2,
-      category: "office_supply",
-      condition: "used",
-      exchangeOption: "free",
-      location: "Chicago",
-      title: "Carpentry Service",
-      description: "A high-quality product in excellent condition.",
-    },
-    {
-      id: 3,
-      category: "office_supply",
-      condition: "used",
-      exchangeOption: "free",
-      location: "Chicago",
-      title: "Carpentry Service",
-      description: "A high-quality product in excellent condition.",
-    },
-    {
-      id: 4,
-      category: "office_supply",
-      condition: "used",
-      exchangeOption: "free",
-      location: "Chicago",
-      title: "Carpentry Service",
-      description: "A high-quality product in excellent condition.",
-    },
-    {
-      id: 5,
-      category: "office_supply",
-      condition: "used",
-      exchangeOption: "free",
-      location: "Chicago",
-      title: "Carpentry Service",
-      description: "A high-quality product in excellent condition.",
-    },
-    {
-      id: 6,
-      category: "office_supply",
-      condition: "used",
-      exchangeOption: "free",
-      location: "Chicago",
-      title: "Carpentry Service",
-      description: "A high-quality product in excellent condition.",
-    },
-]
 
 function Requests() {
   const dispatch = useAppDispatch();
@@ -155,17 +99,23 @@ function Requests() {
                     }
                 </div>
             </div>
-            <div className='w-[85%] h-[1px] bg-gray-300'/>
-            <h1 ref={refToMyRequests} className='text-2xl mt-5 font-semibold'>My Requests</h1>
-            <div className="flex justify-center items-center">
-                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[100%] p-5'>
-                    {
-                      requests.filter((request) => request.user_id === userId).map((request) => (
-                            <RequestCard key={request.post_id} request={request} variant={'editcard'}/>
-                        ))
-                    }
-                </div>
-            </div>
+            {
+              authenticated && (
+                <>
+                  <div className='w-[85%] h-[1px] bg-gray-300'/>
+                  <h1 ref={refToMyRequests} className='text-2xl mt-5 font-semibold'>My Requests</h1>
+                  <div className="flex justify-center items-center">
+                      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[100%] p-5'>
+                          {
+                            requests.filter((request) => request.user_id === userId).map((request) => (
+                                  <RequestCard key={request.post_id} request={request} variant={'editcard'}/>
+                              ))
+                          }
+                      </div>
+                  </div>
+                </>
+              )
+            }
             <div className='w-[85%] h-[1px] bg-gray-300'/>
         </div>
         {

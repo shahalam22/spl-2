@@ -52,13 +52,18 @@ model Message {
 }
 
 model Event {
-  event_id    Int      @id @default(autoincrement())
-  title       String
-  description String
-  status      String
-  startTime   DateTime
-  endTime     DateTime
-  createdAt   DateTime @default(now())
+  event_id        Int      @id @default(autoincrement())
+  title           String
+  description     String
+  status          String   @default("upcoming")
+  date            DateTime @default(now())     
+  startTime       DateTime @default(now())     // Default start time
+  endTime         DateTime @default(now())     // Default end time
+  timezone        String   @default("UTC")     // Default timezone
+  max_participant Int      @default(100)       
+  image           String?  
+  location        Json?    
+  createdAt       DateTime @default(now())
 
   // Relations
   user_id Int

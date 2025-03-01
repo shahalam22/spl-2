@@ -4,7 +4,11 @@
 import Button from '@/components/button/Button'
 import EventCard from '@/components/eventCard/EventCard';
 import EventForm from '@/components/eventForm/EventForm';
-import React from 'react'
+import Header from '@/components/header/Header';
+import HeaderAuth from '@/components/headerAuth/HeaderAuth';
+import { fetchAllEvents } from '@/redux/features/eventSlice';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import React, { useEffect, useRef } from 'react'
 import {FaSearch} from 'react-icons/fa'
 
 const events = [
@@ -43,21 +47,37 @@ const events = [
   ];
 
 function Events() {
-
-  const authenticated = true
-
+  const dispatch = useAppDispatch();
+  const { events, loading, error } = useAppSelector((state) => state.events)
+  const authenticated = useAppSelector((state) => !!state.auth.user)
+  const userId = useAppSelector((state) => state.auth.user?.user_id)
   const [openForm, setOpenForm] = React.useState(false)
 
-  const handleOpenForm = () => {
-    setOpenForm(true)
+  const refToMyEvents = useRef(null);
+  const refToOtherEvents = useRef(null);
+
+  const scrollToMyEvents = () => {
+    refToMyEvents.current.scrollIntoView({ behavior: 'smooth' });
+  }
+  const scrollToOtherEvents = () => {
+    refToOtherEvents.current.scrollIntoView({ behavior: 'smooth' });
   }
 
-  const handleCloseForm = () => {
-    setOpenForm(false)
-  }
+  useEffect(() => {
+    dispatch(fetchAllEvents());
+  }, [dispatch]);
+
+  // console.log(events);
+
+  const handleOpenForm = () => {setOpenForm(true)}
+  const handleCloseForm = () => {setOpenForm(false)}
+
+  if (loading) return <p>Loading events...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <>
+        { authenticated ? <HeaderAuth /> : <Header /> }
         <div className='flex flex-col items-center mt-10 mb-24'>
             <div className='flex justify-between items-center w-[100%] px-12'>
               <h1 className='text-3xl font-semibold'>Events</h1>
@@ -68,10 +88,10 @@ function Events() {
                       <Button variant='black' size='block' onClick={() => handleOpenForm()}>Add Event</Button>
                       </div>
                       <div className='w-24'>
-                        <Button variant='black' size='block'>Your Events</Button>
+                        <Button variant='black' size='block' onClick={scrollToMyEvents}>Your Events</Button>
                       </div>
                       <div className='w-24'>
-                      <Button variant='black' size='block'>Event Posts</Button>
+                      <Button variant='black' size='block' onClick={scrollToOtherEvents}>Event Posts</Button>
                       </div>
                     </div>
                 )
@@ -103,15 +123,45 @@ function Events() {
                 </div> */}
             </div>
             <div className='w-[85%] h-[1px] bg-gray-300'/>
+            <h1 ref={refToOtherEvents} className='text-2xl mt-5 font-semibold'>Events</h1>
             <div className="flex justify-center items-center">
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[100%] p-5'>
                     {
-                        events.map((event) => (
-                            <EventCard key={event.id} variant={authenticated?'editcard':'viewcard'} eventid={event.id}/>
+                        events.filter(event => event.user_id !== userId).map((event) => (
+                            <EventCard 
+                              key={event.event_id} 
+                              variant={'viewcard'} 
+                              event={event}/>
                         ))
                     }
                 </div>
             </div>
+            {
+              authenticated && (
+                <>
+                  <div className='w-[85%] h-[1px] bg-gray-300'/>
+                  <h1 ref={refToMyEvents} className='text-2xl mt-5 font-semibold'>My Events</h1>
+                  <div className="flex justify-center items-center">
+                      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[100%] p-5'>
+                          {
+                            events.filter(event => event.user_id === userId).map((event) => (
+                                <EventCard 
+                                  key={event.event_id} 
+                                  variant={'editcard'} 
+                                  event={event}
+                                />
+                            ))
+                          }
+                          {/* {
+                            events.filter((event)=>{
+                              event.user_id === userId
+                            }).length === 0 && <p>No events found</p>
+                          } */}
+                      </div>
+                  </div>
+                </>
+              )
+            }
             <div className='w-[85%] h-[1px] bg-gray-300'/>
         </div>
         {

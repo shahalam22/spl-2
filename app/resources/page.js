@@ -105,25 +105,31 @@ function Resources() {
             ))}
           </div>
         </div>
-
+        {
+          authenticated && (
+            <>
+              <div className='w-[85%] h-[1px] bg-gray-300'/>
+              <h1 ref={refToMyResources} className='text-2xl mt-5 font-semibold'>My Resources</h1>
+              <div className="flex justify-center items-center">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[100%] p-5">
+                  {resources
+                  .filter((resource) => resource.user_id === userId)
+                  .map((resource) => (
+                    <ResourceCard
+                      key = {resource.post_id}
+                      variant={'editcard'}
+                      resource={resource}
+                    />
+                  ))}
+                  {
+                    resources.filter((resource) => resource.user_id === userId).length === 0 && <p className=''>There is no resources found.</p>
+                  }
+                </div>
+              </div>
+            </>
+          )
+        }
         <div className='w-[85%] h-[1px] bg-gray-300'/>
-        <h1 ref={refToMyResources} className='text-2xl mt-5 font-semibold'>My Resources</h1>
-        <div className="flex justify-center items-center">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[100%] p-5">
-            {resources
-            .filter((resource) => resource.user_id === userId)
-            .map((resource) => (
-              <ResourceCard
-                key = {resource.post_id}
-                variant={'editcard'}
-                resource={resource}
-              />
-            ))}
-            {
-              resources.filter((resource) => resource.user_id === userId).length === 0 && <p className=''>There is no resources found.</p>
-            }
-          </div>
-        </div>
       </div>
       {showForm && <ResourceForm onClose={closeForm} />}
     </>

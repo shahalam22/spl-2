@@ -10,6 +10,7 @@ import notificationRoutes from "./routes/notificationRoutes.js";
 import transactionRoutes from "./routes/transactionRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import errorHandler from "./middlewares/error.js";
+import bodyParser from "body-parser";
 
 dotenv.config();
 
@@ -22,6 +23,9 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
   allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
 }));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.json());
 

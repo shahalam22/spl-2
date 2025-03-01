@@ -3,6 +3,7 @@ import './SingleEventPage.css'
 import Button from '../button/Button'
 import Image from 'next/image'
 import { FaLocationArrow, FaSearchLocation, FaShare } from 'react-icons/fa'
+import { useAppSelector } from '@/redux/hooks'
 
 const event = {
   title: "Annual Grand Sale",
@@ -16,35 +17,42 @@ const event = {
   banner: "grant1.jpg",
 }
 
-function SingleEventPage({onClose}) {
+function SingleEventPage({onClose, eventId}) {
+  const event = useAppSelector((state) => state.events.events.find((event) => event.event_id === eventId));
+
   return (
     <div className='fixed inset-0 z-10 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center' onClick={onClose}>
       <div className='flex flex-col gap-4 p-5 max-w-[750px] m-auto event-page rounded-xl' onClick={(e)=>e.stopPropagation()}>
-        <img className='rounded-2xl max-h-[280px]' src={`/${event.banner}`} alt="banner" />
+        <img className='rounded-2xl max-h-[280px]' src={`/${event.image}`} alt="event_banner" />
         <div className='flex flex-col md:flex-row gap-5 items-center'>
             <div className='w-[100%] md:w-[50%]'>
                 <div>
                     <h1 className='text-3xl font-semibold'>{event.title}</h1>
-                    <div className='flex gap-2 my-2'>
+                    {/* <div className='flex gap-2 my-2'>
                         {
                             event.category.map((category, index) => (
                                 <img className='w-8' key={index} src={`/${category}.jpg`} alt={category} />
                             ))
                         }
-                    </div>
+                    </div> */}
                 </div>
                 <div className='flex flex-col gap-2 mt-10'>
                     <p><span className='font-bold text-lg'>Description: </span>{event.description}</p>
-                    <p><span className='font-bold text-lg'>Max Audience: </span>{event.max}</p>
+                    <p><span className='font-bold text-lg'>Max Audience: </span>{event.max_participant}</p>
                 </div>
             </div>
             <div className='w-[100%] md:w-[50%] mt-6 md:mt-0 flex flex-col gap-4 items-center'>
                 <div className='flex flex-col items-center bg-gray-100 p-5 rounded-2xl w-[100%]'>
                     <p className='font-bold text-lg mb-2'>Event Schedule</p>
-                    <p><span>Date: </span>{event.date}</p>
-                    <p><span>Time: </span>{event.time} {event.timezone}</p>
+                    <p><span className='font-bold'>Date:</span> {new Date(event.date).toLocaleDateString()}</p>
+                    <p><span className='font-bold'>Start Time:</span> {new Date(event.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} {event.timezone}</p>
+                    <p><span className='font-bold'>Duration:</span> {Math.round((new Date(event.endTime) - new Date(event.startTime)) / (1000 * 60))} minutes</p>
                 </div>
-                <p className='flex flex-col items-center bg-yellow-100 p-5 rounded-2xl w-[100%]'><span className='font-bold text-lg'>Location </span>{event.location}</p>
+                <div className='flex flex-col items-center bg-yellow-100 p-5 rounded-2xl w-[100%]'>
+                  <p className='font-bold text-lg'>Location </p>
+                  <p>{event.location.street+", "+event.location.city}</p>  
+                  <p>{event.location.state+", "+event.location.country}</p>  
+                </div>
                 <div className='flex w-[100%]'>
                     <div className='w-[50%]'>
                       <Button variant='black' size='block'>Register</Button>

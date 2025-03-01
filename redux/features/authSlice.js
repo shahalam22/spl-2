@@ -71,7 +71,7 @@ const authSlice = createSlice({
         state.loading = false;
         // state.user = action.payload.data.email; // Assuming email is the user identifier
         state.user = action.payload.data; // Assuming email is the user identifier
-        console.log(action.payload.data);
+        // console.log(action.payload.data);
         // state.token = action.payload.data.token;
         // Persist to localStorage for refresh persistence
         if (typeof window !== 'undefined') {
