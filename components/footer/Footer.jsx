@@ -25,10 +25,10 @@ function Footer() {
                 <div className='footer-links'>
                     <p>Links</p>
                     <Link href={'/'}>Home</Link>
-                    <Link href={'/'}>Categories</Link>
-                    <Link href={'/'}>Resources</Link>
-                    <Link href={'/'}>Requests</Link>
-                    <Link href={'/'}>Events</Link>
+                    <Link href={'/category'}>Categories</Link>
+                    <Link href={'/resources'}>Resources</Link>
+                    <Link href={'/requests'}>Requests</Link>
+                    <Link href={'/events'}>Events</Link>
                 </div>
             </div>
             <div className='footer-contact'>

@@ -6,17 +6,23 @@ import BidDialogue from '@/components/bidDialogue/BidDialogue'
 import Button from '@/components/button/Button'
 import EventProduct from '@/components/eventProduct/EventProduct'
 import EventUser from '@/components/eventUser/EventUser'
+import Header from '@/components/header/Header'
+import HeaderAuth from '@/components/headerAuth/HeaderAuth'
+import { useAppSelector } from '@/redux/hooks'
 import React from 'react'
 import { FaPaperPlane } from 'react-icons/fa'
 
 
 
 function Event() {
+
+    const authenticated = useAppSelector((state) => !!state.auth.user)
     
     const [segment, setSegment] = React.useState('participants')
 
     return (
     <>
+        {authenticated ? <HeaderAuth /> : <Header />}
         <div className='flex'>
             <div className='flex flex-col gap-6 bg-black text-white w-[200px] items-center justify-center h-screen'>
                 <p className='hover:bg-gray-900 w-full text-center p-2 hover:font-semibold' onClick={() => setSegment("participants")}>Participants</p>

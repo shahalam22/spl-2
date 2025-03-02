@@ -98,7 +98,7 @@ function EventCard({variant, event}) {
         }
       </div>
       {
-        showCard && <SingleEventPage onClose={closeCardDetails} eventId={event.event_id}/>
+        showCard && <SingleEventPage onClose={closeCardDetails} eventId={event.event_id} isEditCard={(variant==='editcard')?true:false}/>
       }
       {
         editCard && <EventForm onClose={closeEditCardDetails} data={event}/>

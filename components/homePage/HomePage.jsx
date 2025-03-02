@@ -2,9 +2,11 @@
 import React from 'react'
 import Button from '../button/Button'
 import { useRouter } from 'next/navigation'
+import { useAppSelector } from '@/redux/hooks';
 
 function HomePage() {
   const router = useRouter();
+  const authenticated = useAppSelector((state) => !!state.auth.user);
 
   return (
     <>
@@ -20,13 +22,25 @@ function HomePage() {
         <div className='flex flex-col items-center justify-between gap-4 mt-12'>
           <h3 className='text-cyan-500 text-xl'>Connect - Share - Impact</h3>
           {/* Maintained button wrapper with direct state control */}
-          <Button 
-            variant='black' 
-            size='md'
-            onClick={() => router.push('/register')}
-          >
-            Join Us
-          </Button>
+          {
+            authenticated ? (
+              <Button 
+                variant='black' 
+                size='md'
+                onClick={() => router.push('/dashboard')}
+              >
+                Go to Dashboard
+              </Button>
+            ) : (
+              <Button 
+                variant='black' 
+                size='md'
+                onClick={() => router.push('/register')}
+              >
+                Join Us
+              </Button>
+            )
+          }
         </div>
       </div>
     </>

@@ -11,40 +11,6 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import React, { useEffect, useRef } from 'react'
 import {FaSearch} from 'react-icons/fa'
 
-const events = [
-    {
-      id: 1,
-      category: "office_supply",
-      location: "Chicago",
-      title: "Carpentry Service",
-      description: "A high-quality product in excellent condition.",
-      image: "grant1.jpg",
-    },
-    {
-      id: 2,
-      category: "material",
-      location: "San Antonio",
-      title: "Vintage Desk Chair",
-      description: "A high-quality product in excellent condition.",
-      image: "grant2.jpg",
-    },
-    {
-      id: 3,
-      category: "equipment",
-      location: "San Antonio",
-      title: "Running Shoes",
-      description: "Affordable and ready for immediate use.",
-      image: "grant3.jpg",
-    },
-    {
-      id: 4,
-      category: "cloth",
-      location: "New York",
-      title: "Construction Material",
-      description: "Lightly used with minimal signs of wear.",
-      image: "grant4.jpg",
-    },
-  ];
 
 function Events() {
   const dispatch = useAppDispatch();

@@ -95,7 +95,7 @@ function Login() {
           <div className="flex flex-col items-center gap-3 w-[90%] mx-auto mt-5">
             <p className="text-sm">
               Don’t have an account?{" "}
-              <Link href="/auth/register">
+              <Link href={'/register'}>
                 <span className="text-cyan-500 hover:text-cyan-300">Sign Up</span>
               </Link>
             </p>

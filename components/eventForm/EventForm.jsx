@@ -5,27 +5,6 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { createEvent, fetchAllEvents, updateEvent } from '@/redux/features/eventSlice'
 
 
-
-const data = {
-    date: "2025-05-10T00:00:00.000Z",
-    description: "A conference bringing together global tech leaders.",
-    endTime: "2025-05-10T18:00:00.000Z",
-    image: "/uploads/tech-summit.jpg",
-    location :{
-        city: "San Francisco",
-        country: "USA",
-        state: "California",
-        street: "456 Tech Avenue",
-        zip: "94103",
-    },
-    max_participant: 500,
-    startTime: "2025-05-10T09:00:00.000Z",
-    status: "upcoming", //time er upor base kore niye nibo
-    timezone: "UTC",
-    title: "Global Tech Summit 2025", 
-    user_id: 1,
-}
-
 function EventForm({onClose, data}) {
     const dispatch = useAppDispatch();
     const userId = useAppSelector((state) => state.auth.user?.user_id)

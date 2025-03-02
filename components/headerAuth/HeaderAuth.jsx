@@ -9,7 +9,7 @@ import { logout } from '@/redux/features/authSlice';
 import { useRouter } from 'next/navigation';
 
 const NAV_LINKS = [
-  { path: '/', label: 'Dashboard' },
+  { path: '/dashboard', label: 'Dashboard' },
   { path: '/resources', label: 'Resources' },
   { path: '/requests', label: 'Requests' },
   { path: '/events', label: 'Events' },

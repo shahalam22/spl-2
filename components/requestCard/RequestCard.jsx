@@ -85,7 +85,7 @@ function RequestCard({variant, request}) {
         }
       </div>
       {
-        showCard && <SingleRequestPage onClose={toggleCardDetails} requestId={request.post_id}/>
+        showCard && <SingleRequestPage onClose={toggleCardDetails} requestId={request.post_id} isEditCard={(variant==='editcard'?true:false)}/>
       }
       {
         showEdit && <RequestForm onClose={toggleEditDetails} data={request}/>

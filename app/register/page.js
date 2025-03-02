@@ -34,9 +34,6 @@ function Registration() {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Dispatch the loginUser action with form data
-      // console.log(formData);
-      
       
       const result = await dispatch(registerUser(formData));
 
@@ -122,7 +119,7 @@ function Registration() {
           <div className="flex flex-col items-center gap-3 w-[90%] mx-auto mt-5">
             <p className="text-sm">
               Already have an account?{' '}
-              <Link href={'/'}>
+              <Link href={'/login'}>
                 <span className="text-cyan-500 hover:text-cyan-300">Log In</span>
               </Link>
             </p>
