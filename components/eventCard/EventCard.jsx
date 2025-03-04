@@ -6,7 +6,7 @@ import SingleEventPage from '../singleEventPage/SingleEventPage';
 import Link from 'next/link';
 import EventForm from '../eventForm/EventForm';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { deleteEvent } from '@/redux/features/eventSlice';
+import { deleteEvent, unregisterFromEvent } from '@/redux/features/eventSlice';
 
 // variant - viewcard, editcard
 
@@ -26,10 +26,20 @@ function EventCard({variant, event}) {
   const closeEditCardDetails = () => {setEditCard(false)}
 
   const handleDelete = async () => {
-    console.log(event.event_id);
+    // console.log(event.event_id);
 
     try {
       dispatch(deleteEvent(event.event_id));
+    }catch(error){
+      console.error('Failed to delete event:', error);
+    }
+  }
+
+  const handleUnregister = async () => {
+    // console.log(event.event_id);
+
+    try {
+      dispatch(unregisterFromEvent(event.event_id));
     }catch(error){
       console.error('Failed to delete event:', error);
     }
@@ -75,15 +85,27 @@ function EventCard({variant, event}) {
         }
 
         {
+          variant === 'joincard' && (
+            <div className="card-edit-footer">
+              <div className='w-[77%] flex gap-1' onClick={(e)=>e.stopPropagation()}>
+                <div className='w-[50%]' onClick={handleUnregister}>
+                  <Button variant='black' size='block'>Unsubscribe</Button>
+                </div>
+                <Link href={`/events/${event.event_id}/`} className='w-[50%]'>
+                  <Button variant='cyan' size='block'>Join</Button>
+                </Link>
+              </div>
+            </div>
+          )
+        }
+
+        {
           variant === 'editcard' && (
             <div className="card-edit-footer">
               <div className='w-[77%] flex gap-1' onClick={(e)=>e.stopPropagation()}>
-                {/* { */}
-                  {/* (event.user_id===userId) &&  */}
-                  <div className='w-[50%]' onClick={editCardDetails}>
-                    <Button variant='black' size='block'>Edit</Button>
-                  </div>
-                {/* } */}
+                <div className='w-[50%]' onClick={editCardDetails}>
+                  <Button variant='black' size='block'>Edit</Button>
+                </div>
                 <Link href={`/events/${event.event_id}`} className='w-[50%]'>
                   <Button variant='cyan' size='block'>Join</Button>
                 </Link>
@@ -98,7 +120,7 @@ function EventCard({variant, event}) {
         }
       </div>
       {
-        showCard && <SingleEventPage onClose={closeCardDetails} eventId={event.event_id} isEditCard={(variant==='editcard')?true:false}/>
+        showCard && <SingleEventPage onClose={closeCardDetails} eventId={event.event_id} variant={variant}/>
       }
       {
         editCard && <EventForm onClose={closeEditCardDetails} data={event}/>

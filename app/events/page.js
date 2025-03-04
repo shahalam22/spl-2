@@ -14,9 +14,13 @@ import {FaSearch} from 'react-icons/fa'
 
 function Events() {
   const dispatch = useAppDispatch();
-  const { events, loading, error } = useAppSelector((state) => state.events)
+  const { events, loading, error, participatedEvents } = useAppSelector((state) => state.events)
+
+  // console.log(participatedEvents);
+  
+
   const authenticated = useAppSelector((state) => !!state.auth.user)
-  const userId = useAppSelector((state) => state.auth.user?.user_id)
+  const userId = useAppSelector((state) => state.auth.user?.user_id) || 0;
   const [openForm, setOpenForm] = React.useState(false)
 
   const refToMyEvents = useRef(null);
@@ -30,10 +34,13 @@ function Events() {
   }
 
   useEffect(() => {
-    dispatch(fetchAllEvents());
-  }, [dispatch]);
+    dispatch(fetchAllEvents(userId));
+  }, []);
 
-  // console.log(events);
+  // console.log(events, participatedEvents);
+  
+
+  // console.log(participatedEvents);
 
   const handleOpenForm = () => {setOpenForm(true)}
   const handleCloseForm = () => {setOpenForm(false)}
@@ -70,30 +77,13 @@ function Events() {
                         <Button variant='black' size='block'><FaSearch className='m-auto' size={16}/></Button>
                     </div>
                 </div>
-                {/* <div className='flex gap-2 justify-between mt-2'>
-                    <select className='border w-[100%] border-gray-100 pl-2 rounded-md bg-gray-100 h-10' name="category" id="category">
-                        <option value="food">Food</option>
-                        <option value="cloth">Cloth</option>
-                        <option value="equipment">Equipment</option>
-                        <option value="service">Service</option>
-                        <option value="office_supply">Office Supply</option>
-                        <option value="furniture">Furniture</option>
-                        <option value="material">Material</option>
-                    </select>
-                    <select className='border w-[100%] border-gray-100 pl-2 rounded-md bg-gray-100 h-10' name="condition" id="condition">
-                        <option value="new">New</option>
-                        <option value="used">Used</option>
-                        <option value="surplus">Surplus</option>
-                        <option value="expired">Date Expired</option>
-                    </select>
-                </div> */}
             </div>
             <div className='w-[85%] h-[1px] bg-gray-300'/>
             <h1 ref={refToOtherEvents} className='text-2xl mt-5 font-semibold'>Events</h1>
             <div className="flex justify-center items-center">
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[100%] p-5'>
                     {
-                        events.filter(event => event.user_id !== userId).map((event) => (
+                        events.filter(event => ((event.user_id !== userId) && ( !(participatedEvents ?? []).some(participated => participated.event_id === event.event_id)))).map((event) => (
                             <EventCard 
                               key={event.event_id} 
                               variant={'viewcard'} 
@@ -103,10 +93,32 @@ function Events() {
                 </div>
             </div>
             {
+              participatedEvents && (
+                <>
+                <div className='w-[85%] h-[1px] bg-gray-300'/>
+                  <h1 ref={refToMyEvents} className='text-2xl mt-5 font-semibold'>Participating Events</h1>
+                  <div className="flex justify-center items-center">
+                      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[100%] p-5'>
+                          {
+                            participatedEvents.map((event) => (
+                                <EventCard 
+                                  key={event.event_id} 
+                                  variant={'joincard'} 
+                                  event={event}
+                                />
+                            ))
+                          }
+                      </div>
+                  </div>
+                </>
+              )
+            }
+
+            {
               authenticated && (
                 <>
                   <div className='w-[85%] h-[1px] bg-gray-300'/>
-                  <h1 ref={refToMyEvents} className='text-2xl mt-5 font-semibold'>My Events</h1>
+                  <h1 className='text-2xl mt-5 font-semibold'>My Events</h1>
                   <div className="flex justify-center items-center">
                       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[100%] p-5'>
                           {

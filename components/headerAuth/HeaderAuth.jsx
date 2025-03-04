@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React from 'react';
 import Button from '../button/Button';
 import logo from '@/public/c4clogo_black_transparent.png';
-import { useAppDispatch } from '@/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { logout } from '@/redux/features/authSlice';
 import { useRouter } from 'next/navigation';
 
@@ -37,6 +37,7 @@ const ICON_BUTTONS = [
 function HeaderAuth() {
 
   const dispatch = useAppDispatch();
+  const userId = useAppSelector((state) => state.auth.user?.user_id);
   const router = useRouter();
 
   const handleLogout = () => {
@@ -54,7 +55,7 @@ function HeaderAuth() {
       {/* Navigation Links */}
       <nav className='hidden gap-4 md:flex md:gap-4 lg:gap-16 md:justify-center'>
         {NAV_LINKS.map(({ path, label }) => (
-          <Link key={path} href={path} className='hover:text-gray-200 transition-colors'>
+          <Link key={path} href={(path==='/events')?(path+`?userId=${userId}`):path} className='hover:text-gray-200 transition-colors'>
             {label}
           </Link>
         ))}

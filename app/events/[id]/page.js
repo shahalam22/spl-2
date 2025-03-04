@@ -8,8 +8,11 @@ import EventProduct from '@/components/eventProduct/EventProduct'
 import EventUser from '@/components/eventUser/EventUser'
 import Header from '@/components/header/Header'
 import HeaderAuth from '@/components/headerAuth/HeaderAuth'
-import { useAppSelector } from '@/redux/hooks'
-import React from 'react'
+import ResourceForm from '@/components/resourceForm/ResourceForm'
+import { fetchAllOfCurrentEvent } from '@/redux/features/eventSlice'
+import { useAppDispatch, useAppSelector } from '@/redux/hooks'
+import { useParams } from 'next/navigation'
+import React, { useEffect } from 'react'
 import { FaPaperPlane } from 'react-icons/fa'
 
 
@@ -17,7 +20,6 @@ import { FaPaperPlane } from 'react-icons/fa'
 function Event() {
 
     const authenticated = useAppSelector((state) => !!state.auth.user)
-    
     const [segment, setSegment] = React.useState('participants')
 
     return (
@@ -43,89 +45,28 @@ function Event() {
 
 
 
-const participants = [
-    {
-        id: 1,
-        name: 'Grant Marshall',
-        email: 'grant_marshall@gmail.com',
-        phone: '08023456789',
-        role: 'Admin'
-    },
-    {
-        id: 2,
-        name: 'Alexa',
-        email: 'alexa@gmail.com',
-        phone: '08023456789',
-        role: 'User'
-    },
-    {
-        id: 3,
-        name: 'John Doe',
-        email: 'johndoe@gmail.com',
-        phone: '08023456789',
-        role: 'User'
-    },
-    {
-        id: 4,
-        name: 'Jane Doe',
-        email: 'johndoe@gmail.com',
-        phone: '08023456789',
-        role: 'User'
-    },
-    {
-        id: 5,
-        name: 'Jane Doe',
-        email: 'johndoe@gmail.com',
-        phone: '08023456789',
-        role: 'User'
-    },
-    {
-        id: 6,
-        name: 'Jane Doe',
-        email: 'johndoe@gmail.com',
-        phone: '08023456789',
-        role: 'User'
-    },
-    {
-        id: 7,
-        name: 'Jane Doe',
-        email: 'johndoe@gmail.com',
-        phone: '08023456789',
-        role: 'User'
-    },
-    {
-        id: 8,
-        name: 'Jane Doe',
-        email: 'johndoe@gmail.com',
-        phone: '08023456789',
-        role: 'User'
-    },
-    {
-        id: 9,
-        name: 'Jane Doe',
-        email: 'johndoe@gmail.com',
-        phone: '08023456789',
-        role: 'User'
-    },
-    {
-        id: 10,
-        name: 'Jane Doe',
-        email: 'johndoe@gmail.com',
-        phone: '08023456789',
-        role: 'User'
-    }
-]
-
 function Participants() {
+    const params = useParams();
+    const dispatch = useAppDispatch();
+
+    const { currentEvent ,currentEventParticipants } = useAppSelector((state) => state.events);
+    const userId = useAppSelector((state) => state.auth.user?.user_id)
+
+    useEffect(() => {
+        dispatch(fetchAllOfCurrentEvent(params.id));
+    }, []);
+    
     return (
         <>
             <div className='flex flex-col gap-4 w-full'>
                 <p className='text-xl font-semibold'>Participants</p>
                 <div className='flex flex-col gap-4 h-screen overflow-y-auto py-2'>
                     {
-                        participants.map(participant => (
-                            <EventUser key={participant.id} user={participant}/>
-                        ))
+                        currentEventParticipants && (
+                            currentEventParticipants.map(participant => (
+                                <EventUser key={participant.user_id} user={participant} isOwner={currentEvent.user_id === userId? true : false}/>
+                            ))
+                        )
                     }
                 </div>
             </div>
@@ -203,13 +144,31 @@ const products = [
 ]
 
 function Products() {
-    
+    const params = useParams();
+    const dispatch = useAppDispatch();
+
+    const { currentEvent, currentEventProducts } = useAppSelector((state) => state.events);
+    const userId = useAppSelector((state) => state.auth.user?.user_id)
+
+    useEffect(() => {
+        dispatch(fetchAllOfCurrentEvent(params.id));
+    }, []);
+
     const [show, setShow] = React.useState(false)
+    const [showResourceForm, setShowResourceForm] = React.useState(false)
+
+    const openResourceForm = () => setShowResourceForm(true)
+    const closeResourceForm = () => setShowResourceForm(false)
 
     return (
         <>
             <div className='flex flex-col gap-4 w-full'>
-                <p className='text-xl font-semibold'>Products</p>
+                <div className='flex justify-between items-center'>
+                    <p className='text-xl font-semibold'>Products</p>
+                    <div className='w-40'>
+                        <Button variant="black" size="block" onClick={openResourceForm}>Add New Resource</Button>
+                    </div>
+                </div>
                 <div className='flex flex-col gap-4 h-screen overflow-y-auto py-2'>
                     {
                         products.map(product => (
@@ -226,6 +185,7 @@ function Products() {
                     <BidDialogue onClose={() => setShow(false)}/>
                 </div>
             }
+            {showResourceForm && <ResourceForm onClose={closeResourceForm} />}
         </>
     )
 }

@@ -1,4 +1,5 @@
 import * as eventService from "../services/eventService.js";
+import * as userService from "../services/userService.js";
 import catchAsync from "../utils/catchAsync.js";
 
 export const createEvent = catchAsync(async (req, res) => {
@@ -82,8 +83,22 @@ export const getEvent = catchAsync(async (req, res) => {
 });
 
 export const getAllEvents = catchAsync(async (req, res) => {
+
+  // console.log("getAllEvents invoked in eventController.js", req.query.userId);
+  
   const events = await eventService.getAllEvents();
-  res.status(200).json({ success: true, data: events });
+  
+  var participatedEvents = []
+
+  if (req.query.userId) {
+      const eventParticipants = await eventService.getEventParticipantsByUserId(req.query.userId);
+      for(let i=0; i<eventParticipants.length; i++){
+        const event = await eventService.getEventById(eventParticipants[i].event_id);
+        participatedEvents.push(event);
+      }
+  }
+  
+  res.status(200).json({ success: true, data: {events:events, participatedEvents:participatedEvents} });
 });
 
 // Update event operation restricted to the creator of the event
@@ -141,4 +156,143 @@ export const deleteEvent = catchAsync(async (req, res) => {
     success: true,
     message: "Event deleted successfully",
   });
+});
+
+
+export const registerForEvent = catchAsync(async (req, res) => {
+  const { eventId } = req.body;
+
+  // Check if req.user exists
+  if (!req.user || !req.user.user_id) {
+    return res.status(401).json({
+      success: false,
+      message: "User not authenticated",
+    });
+  }
+
+  const userId = req.user.user_id;
+
+  // console.log("Reached registerForEvent in eventController.js", userId, eventId);
+
+  // Validate eventId
+  if (!eventId) {
+    return res.status(400).json({
+      success: false,
+      message: "Event ID is required",
+    });
+  }
+
+  const event = await eventService.getEventById(eventId);
+
+  // console.log("Event Data from registerForEvent in eventController.js", event);
+  
+
+  if (!event) {
+    return res.status(404).json({
+      success: false,
+      message: "Event not found",
+    });
+  }
+
+  // const user = await prisma.user.findUnique({ where: { user_id: userId } });
+  // if (!user) {
+  //   return res.status(404).json({
+  //     success: false,
+  //     message: "User not found",
+  //   });
+  // }
+
+  const user = await userService.getUserById(userId);
+
+  // console.log("User Data from registerForEvent in eventController.js", user);
+  
+  // console.log("User ID from registerForEvent in eventController.js", userId, eventId);
+  
+
+  const existingParticipant = await eventService.findEventParticipant(eventId, userId);
+  if (existingParticipant) {
+    return res.status(400).json({
+      success: false,
+      message: "You are already registered for this event",
+    });
+  }
+
+  // console.log("Existing Participant Data from registerForEvent in eventController.js", existingParticipant);
+  
+
+  const participant = await eventService.registerForEvent(eventId, userId);
+  res.status(201).json({
+    success: true,
+    message: "Successfully registered for the event",
+    data: participant,
+  });
+});
+
+
+export const unregisterFromEvent = catchAsync(async (req, res) => {
+  const { eventId } = req.body;
+
+  // Check if req.user exists
+  if (!req.user || !req.user.user_id) {
+    return res.status(401).json({
+      success: false,
+      message: "User not authenticated",
+    });
+  }
+
+  const userId = req.user.user_id;
+
+  // Validate eventId
+  if (!eventId) {
+    return res.status(400).json({
+      success: false,
+      message: "Event ID is required",
+    });
+  }
+
+  const event = await eventService.getEventById(eventId);
+  if (!event) {
+    return res.status(404).json({
+      success: false,
+      message: "Event not found",
+    });
+  }
+
+  const existingParticipant = await eventService.findEventParticipant(eventId, userId);
+  if (!existingParticipant) {
+    return res.status(400).json({
+      success: false,
+      message: "You are not registered for this event",
+    });
+  }
+
+  await eventService.unregisterFromEvent(eventId, userId);
+
+  res.status(200).json({
+    success: true,
+    message: "Successfully unregistered from the event",
+  });
+});
+
+
+export const getAllOfCurrentEvent = catchAsync(async (req, res) => {
+  const event = await eventService.getEventById(req.params.id);
+  if (!event) {
+    return res.status(404).json({
+      success: false,
+      message: "Event not found",
+    });
+  }
+
+  const participants = await eventService.getEventParticipantsByEventId(req.params.id);
+  // const products = await eventService.getProductsByEventId(req.params.id);
+  const products = [];
+
+  var participantsData = [];
+  for(let i=0; i<participants.length; i++){
+    const user = await userService.getUserById(participants[i].user_id);
+    participantsData.push(user);
+  }
+
+  res.status(200).json({ success: true, data: {event: event, participantsData: participantsData, productsData: products} });
 });

@@ -1,11 +1,30 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-// Async thunks for CRUD operations
+// // Async thunks for CRUD operations
+// export const fetchAllEvents = createAsyncThunk(
+//   'events/fetchAll',
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       const response = await fetch('http://localhost:5000/api/events', {
+//         method: 'GET',
+//         headers: { 'Content-Type': 'application/json' },
+//       });
+//       if (!response.ok) throw new Error('Failed to fetch events');
+//       const data = await response.json();
+
+//       return data.data; // Assuming { success: true, data: [...] }
+//     } catch (error) {
+//       return rejectWithValue(error.message);
+//     }
+//   }
+// );
+
 export const fetchAllEvents = createAsyncThunk(
   'events/fetchAll',
-  async (_, { rejectWithValue }) => {
+  async (userId, { rejectWithValue }) => { // Accept userId as a parameter
     try {
-      const response = await fetch('http://localhost:5000/api/events', {
+      // Add userId as a query parameter in the URL
+      const response = await fetch(`http://localhost:5000/api/events?userId=${userId}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
@@ -41,16 +60,12 @@ export const createEvent = createAsyncThunk(
   async (eventData, { getState, rejectWithValue }) => {
     try {
       const { auth } = getState();
-      // console.log("AUTH TOKEN:", auth.user.token);
-      // console.log("EVENT DATA:", eventData);
 
       const formData = new FormData();
       for (const key in eventData) {
         if (key === 'images') {
-          // console.log('Images:', eventData.images);
           eventData.images.forEach((file) => formData.append('image', file)); // Use 'image' to match backend multer field
         } else if (key === 'location') {
-          // Stringify the location object before appending
           formData.append(key, JSON.stringify(eventData[key]));
         } else {
           formData.append(key, eventData[key]);
@@ -66,13 +81,9 @@ export const createEvent = createAsyncThunk(
       });
 
       const responseText = await response.text();
-      // console.log("Response Status:", response.status);
-      // console.log("Response Text:", responseText);
-
       if (!response.ok) throw new Error(`Failed to create event: ${response.status} - ${responseText}`);
       const data = JSON.parse(responseText);
 
-      // console.log("Parsed Data:", data);
       return data.data; // { success: true, data: {...} }
     } catch (error) {
       console.error("ERROR:", error);
@@ -81,15 +92,9 @@ export const createEvent = createAsyncThunk(
   }
 );
 
-
 export const updateEvent = createAsyncThunk(
   'events/update',
   async ({ eventId, eventData }, { getState, rejectWithValue }) => {
-
-    // console.log("EVENT ID:", eventId);
-    // console.log("EVENT DATA:", eventData);
-
-    // console.log("data from eventSlice.js", eventData);
 
     try {
       const { auth } = getState();
@@ -105,7 +110,6 @@ export const updateEvent = createAsyncThunk(
       const data = await response.json();
       return data.data; // { success: true, data: {...} }
     } catch (error) {
-      // console.error("ERROR:", error.message);
       return rejectWithValue(error.message);
     }
   }
@@ -130,11 +134,107 @@ export const deleteEvent = createAsyncThunk(
   }
 );
 
+export const unregisterFromEvent = createAsyncThunk(
+  'events/unregister',
+  async (eventId, { getState, rejectWithValue }) => {
+    try {
+      const { auth } = getState();
+      const response = await fetch(`http://localhost:5000/api/events/unregister`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth.user.token}`,
+        },
+        body: JSON.stringify({ eventId }),
+      });
+      if (!response.ok) throw new Error('Failed to unregister from event');
+      return eventId; // Return the ID for removal from state
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+)
+
+export const fetchAllOfCurrentEvent = createAsyncThunk(
+  'events/fetchParticipants',
+  async (eventId, { rejectWithValue }) => {
+    console.log('from eventSlice.js function fetchParticipants of', eventId);
+    
+    try {
+      const response = await fetch(`http://localhost:5000/api/events/${eventId}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      if (!response.ok) throw new Error('Failed to fetch participants');
+      const data = await response.json();
+      console.log('from eventSlice.js function fetchParticipants of', data);
+      
+      return { event: data.data.event, participantsData: data.data.participantsData, productsData: data.data.productsData };
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+)
+
+
+// export const fetchProductsOfEvent = createAsyncThunk(
+//   'events/fetchProducts',
+//   async (eventId, { rejectWithValue }) => {
+//     try {
+//       const response = await fetch(`http://localhost:5000/api/events/${eventId}/products`, {
+//         method: 'GET',
+//         headers: { 'Content-Type': 'application/json' },
+//       });
+//       if (!response.ok) throw new Error('Failed to fetch products');
+//       const data = await response.json();
+//       return data.data;
+//     } catch (error) {
+//       return rejectWithValue(error.message);
+//     }
+//   }
+// )
+
+
+// Async thunk for registering to an event
+export const registerForEvent = createAsyncThunk(
+  "events/register",
+  async (eventId, { getState, rejectWithValue }) => {
+    try {
+      const { auth } = getState();
+
+      // console.log('from eventSlice.js', eventId);
+      
+      const response = await fetch("http://localhost:5000/api/events/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${auth.user.token}`,
+        },
+        body: JSON.stringify({ eventId }),
+      });
+
+      // console.log('from eventSlice.js', response);
+      
+
+      if (!response.ok) throw new Error("Failed to register for event ", response.text);
+      const data = await response.json();
+      return { eventId, participant: data.data }; // Return the event ID and the new participant
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+
+
 const eventsSlice = createSlice({
-  name: 'events',
+  name: "events",
   initialState: {
-    events: [], // Array of all events
-    currentEvent: null, // For viewing/editing a single event
+    events: [],
+    currentEvent: null,
+    currentEventParticipants: [],
+    currentEventProducts: [],
+    participatedEvents: [], // Array to store events the user has participated in
     loading: false,
     error: null,
   },
@@ -152,25 +252,26 @@ const eventsSlice = createSlice({
       })
       .addCase(fetchAllEvents.fulfilled, (state, action) => {
         state.loading = false;
-        state.events = action.payload;
+        state.events = action.payload.events;
+        state.participatedEvents = action.payload.participatedEvents;
       })
       .addCase(fetchAllEvents.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
       // Fetch Event by ID
-      .addCase(fetchEventById.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchEventById.fulfilled, (state, action) => {
-        state.loading = false;
-        state.currentEvent = action.payload;
-      })
-      .addCase(fetchEventById.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
+      // .addCase(fetchEventById.pending, (state) => {
+      //   state.loading = true;
+      //   state.error = null;
+      // })
+      // .addCase(fetchEventById.fulfilled, (state, action) => {
+      //   state.loading = false;
+      //   state.currentEvent = action.payload;
+      // })
+      // .addCase(fetchEventById.rejected, (state, action) => {
+      //   state.loading = false;
+      //   state.error = action.payload;
+      // })
       // Create Event
       .addCase(createEvent.pending, (state) => {
         state.loading = true;
@@ -212,7 +313,79 @@ const eventsSlice = createSlice({
       .addCase(deleteEvent.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
+      
+      .addCase(registerForEvent.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(registerForEvent.fulfilled, (state, action) => {
+        state.loading = false;
+        const { eventId, participant } = action.payload;
+
+        // Option 1: Add participant data to participatedEvents
+        // state.participatedEvents.push({ eventId, ...participant });
+
+        // Option 2: Add the full event data to participatedEvents
+        const event = state.events.find((event) => event.event_id === eventId);
+        state.participatedEvents.push({ ...event, participant });
+      })
+      .addCase(registerForEvent.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(unregisterFromEvent.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(unregisterFromEvent.fulfilled, (state, action) => {
+        state.loading = false;
+        const eventId = action.payload;
+        state.participatedEvents = state.participatedEvents.filter((event) => event.event_id !== eventId);
+      })
+      .addCase(unregisterFromEvent.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchAllOfCurrentEvent.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAllOfCurrentEvent.fulfilled, (state, action) => {
+        state.loading = false;
+        state.currentEvent = action.payload.event;
+        state.currentEventParticipants = action.payload.participantsData;
+        state.currentEventProducts = action.payload.productsData;
+      })
+      .addCase(fetchAllOfCurrentEvent.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // .addCase(fetchParticipatedEvents.pending, (state) => {
+      //   state.loading = true;
+      //   state.error = null;
+      // })
+      // .addCase(fetchParticipatedEvents.fulfilled, (state, action) => {
+      //   state.loading = false;
+      //   state.participatedEvents = action.payload; // Store the events directly
+      // })
+      // .addCase(fetchParticipatedEvents.rejected, (state, action) => {
+      //   state.loading = false;
+      //   state.error = action.payload;
+      // });
+      ;
+      // .addCase(fetchEventParticipants.pending, (state) => {
+      //   state.loading = true;
+      //   state.error = null;
+      // })
+      // .addCase(fetchEventParticipants.fulfilled, (state, action) => {
+      //   state.loading = false;
+      //   state.participants[action.payload.eventId] = action.payload.participants;
+      // })
+      // .addCase(fetchEventParticipants.rejected, (state, action) => {
+      //   state.loading = false;
+      //   state.error = action.payload;
+      // });;
   },
 });
 

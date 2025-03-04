@@ -24,6 +24,7 @@ model User {
   posts            Post[]
   transactions     Transaction[]
   bids             Bid[]
+  eventParticipants EventParticipant[] // Added relation for event participants
 }
 
 model Notification {
@@ -66,10 +67,11 @@ model Event {
   createdAt       DateTime @default(now())
 
   // Relations
-  user_id Int
-  user    User   @relation(fields: [user_id], references: [user_id])
-  posts   Post[]
-  bids    Bid[]
+  user_id           Int
+  user              User             @relation(fields: [user_id], references: [user_id])
+  posts             Post[]
+  bids              Bid[]
+  eventParticipants EventParticipant[] // Added relation for event participants
 }
 
 model Post {
@@ -77,6 +79,7 @@ model Post {
   title       String
   description String
   price       Float
+  bidAmount   Int?     // Added optional integer field
   isRequest   Boolean
   status      String
   createdAt   DateTime @default(now())
@@ -140,4 +143,19 @@ model Category {
 
   // Relations
   posts Post[]
+}
+
+// New model to track event participants
+model EventParticipant {
+  id       Int      @id @default(autoincrement())
+  event_id Int
+  user_id  Int
+  joinedAt DateTime @default(now())
+
+  // Relations
+  event    Event    @relation(fields: [event_id], references: [event_id], onDelete: Cascade)
+  user     User     @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+
+  // Ensure a user can only join an event once
+  @@unique([event_id, user_id])
 }
