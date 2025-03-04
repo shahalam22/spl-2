@@ -4,7 +4,7 @@ import Button from "../button/Button";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { createPost, fetchAllPosts, updatePost } from "@/redux/features/postsSlice";
 
-function ResourceForm({ onClose, data }) {
+function ResourceForm({ onClose, data, eventId }) {
   const dispatch = useAppDispatch();
   const userId = useAppSelector((state) => state.auth.user?.user_id);
   const [formData, setFormData] = useState({
@@ -19,10 +19,11 @@ function ResourceForm({ onClose, data }) {
     location: { city: data? data.location.city : "", country: data? data.location.country : "", state: data? data.location.state : "", street: data? data.location.street : "", zip: data? data.location.zip : "" },
     pickup: { date: data? data.pickup.date : "", time: data? data.pickup.time : "" },
     price: data? data.price : 0,
+    bidAmount: data? data.bidAmount : 0,
     quantity: data? data.quantity : 0,
     status: data? data.status : "available",
     user_id: data ? data.user_id : userId,
-    event_id: data ? data.event_id : "",
+    event_id: data ? data.event_id : eventId ? eventId : -1,
   });
 
   const handleChange = (e) => {

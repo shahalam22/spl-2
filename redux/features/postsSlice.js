@@ -48,7 +48,7 @@ export const createPost = createAsyncThunk(
       const formData = new FormData();
       for (const key in postData) {
         if (key === "images") {
-          console.log("Images:", postData.images); // Check images array
+          // console.log("Images:", postData.images); // Check images array
           postData.images.forEach((file) => formData.append("images", file));
         } else if (typeof postData[key] === "object") {
           formData.append(key, JSON.stringify(postData[key]));
@@ -66,13 +66,13 @@ export const createPost = createAsyncThunk(
       });
 
       const responseText = await response.text(); // Get raw response
-      console.log("Response Status:", response.status);
-      console.log("Response Text:", responseText);
+      // console.log("Response Status:", response.status);
+      // console.log("Response Text:", responseText);
 
       if (!response.ok) throw new Error(`Failed to create post: ${response.status} - ${responseText}`);
       const data = JSON.parse(responseText);
 
-      console.log("Parsed Data:", data);
+      // console.log("Parsed Data:", data);
 
       return data.data;
     } catch (error) {

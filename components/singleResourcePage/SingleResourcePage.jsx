@@ -6,22 +6,28 @@ import { FaLocationArrow, FaSearchLocation, FaShare } from 'react-icons/fa'
 import { useAppSelector } from '@/redux/hooks'
 
 
-function SingleResourcePage({onClose, resourceId, isEditCard}) {
-  const resource = useAppSelector((state) => state.posts.posts.find((post) => post.post_id === resourceId));
+function SingleResourcePage({onClose, resource, isEditCard}) {
+  // const resource = useAppSelector((state) => state.posts.posts.find((post) => post.post_id === resourceId));
 
   return (
     <div className='fixed inset-0 z-10 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center' onClick={onClose}>
       <div className='single-resource-page rounded-lg' onClick={(e)=>e.stopPropagation()}>
         <div className='single-resource-page-left'>
           <div className='single-resource-page-left-image'>
-            <img className='rounded-md' src={`/${resource.images[0]}`} alt='image'/>
-            <div className='flex justify-between'>
-              {resource.images.map((image, index) => {
-                return (
-                  <img className='w-[30%] rounded-md' key={index} src={`/${image}`} alt='image'/>
-                )
-              })}
-            </div>
+            {
+              resource && (
+                <>
+                  <img className='rounded-md' src={`/${resource.images[0]}`} alt='image'/>
+                  <div className='flex justify-between'>
+                    {resource.images.map((image, index) => {
+                      return (
+                        <img className='w-[30%] rounded-md' key={index} src={`/${image}`} alt='image'/>
+                      )
+                    })}
+                  </div>
+                </>
+              )
+            }
           </div>
           <div className='single-resource-page-left-loc-price'>
             <div className='single-resource-page-left-price flex items-baseline gap-2'>

@@ -3,6 +3,17 @@ import './BidDialogue.css'
 import Button from '../button/Button'
 
 function BidDialogue({onClose}) {
+  // bid_id    Int      @id @default(autoincrement())
+  // bidAmount Float
+  // status    String
+  // createdAt DateTime @default(now())
+
+  // // Relations
+  // user_id  Int
+  // event_id Int
+  // post_id  Int
+  // 
+
   return (
     <>
     {/* <div className='fixed inset-0 z-10 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center' onClick={onClose}></div> */}

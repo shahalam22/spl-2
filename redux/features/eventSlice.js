@@ -158,7 +158,7 @@ export const unregisterFromEvent = createAsyncThunk(
 export const fetchAllOfCurrentEvent = createAsyncThunk(
   'events/fetchParticipants',
   async (eventId, { rejectWithValue }) => {
-    console.log('from eventSlice.js function fetchParticipants of', eventId);
+    // console.log('from eventSlice.js function fetchParticipants of', eventId);
     
     try {
       const response = await fetch(`http://localhost:5000/api/events/${eventId}`, {
@@ -167,7 +167,7 @@ export const fetchAllOfCurrentEvent = createAsyncThunk(
       });
       if (!response.ok) throw new Error('Failed to fetch participants');
       const data = await response.json();
-      console.log('from eventSlice.js function fetchParticipants of', data);
+      // console.log('from eventSlice.js function fetchParticipants of', data);
       
       return { event: data.data.event, participantsData: data.data.participantsData, productsData: data.data.productsData };
     } catch (error) {

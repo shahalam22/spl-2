@@ -18,9 +18,14 @@ import { FaPaperPlane } from 'react-icons/fa'
 
 
 function Event() {
-
+    const params = useParams()
+    const dispatch = useAppDispatch()
     const authenticated = useAppSelector((state) => !!state.auth.user)
     const [segment, setSegment] = React.useState('participants')
+
+    useEffect(() => {
+        dispatch(fetchAllOfCurrentEvent(params.id))
+    }, [dispatch])
 
     return (
     <>
@@ -80,68 +85,6 @@ function Participants() {
 
 
 
-const products = [
-    {
-        id: 1,
-        title: 'Surplus sole',
-        asking_price: 1000,
-        current_bid: 2000,
-    },
-    {
-        id:2,
-        title: 'Second hand shoe',
-        asking_price: 500,
-        current_bid: 1000,
-    },
-    {
-        id: 3,
-        title: 'New shoe',
-        asking_price: 2000,
-        current_bid: 3000,
-    },
-    {
-        id: 4,
-        title: 'New shoe',
-        asking_price: 2000,
-        current_bid: 3000,
-    },
-    {
-        id: 5,
-        title: 'Used office shoe',
-        asking_price: 500,
-        current_bid: 1000,
-    },
-    {
-        id: 6,
-        title: 'New shoe',
-        asking_price: 2000,
-        current_bid: 3000,
-    },
-    {
-        id: 7,
-        title: 'New shoe',
-        asking_price: 2000,
-        current_bid: 3000,
-    },
-    {
-        id: 8,
-        title: 'Used office shoe',
-        asking_price: 500,
-        current_bid: 1000,
-    },
-    {
-        id: 9,
-        title: 'New shoe',
-        asking_price: 2000,
-        current_bid: 3000,
-    },
-    {
-        id: 10,
-        title: 'New shoe',
-        asking_price: 2000,
-        current_bid: 3000,
-    }
-]
 
 function Products() {
     const params = useParams();
@@ -152,11 +95,10 @@ function Products() {
 
     useEffect(() => {
         dispatch(fetchAllOfCurrentEvent(params.id));
-    }, []);
+    }, [dispatch]);
 
     const [show, setShow] = React.useState(false)
     const [showResourceForm, setShowResourceForm] = React.useState(false)
-
     const openResourceForm = () => setShowResourceForm(true)
     const closeResourceForm = () => setShowResourceForm(false)
 
@@ -169,11 +111,24 @@ function Products() {
                         <Button variant="black" size="block" onClick={openResourceForm}>Add New Resource</Button>
                     </div>
                 </div>
-                <div className='flex flex-col gap-4 h-screen overflow-y-auto py-2'>
+                <div className='flex flex-col gap-4 py-2'>
+                    <p>Resources</p>
                     {
-                        products.map(product => (
-                            <EventProduct key={product.id} onClickBid={() => setShow(true)} product={product}/>
-                        ))
+                        currentEventProducts && (
+                            currentEventProducts.filter((product) => !userId || product.user_id != userId).map(product => (
+                                <EventProduct key={product.post_id} onClickBid={() => setShow(true)} product={product} variant="viewcard"/>
+                            ))
+                        )
+                    }
+                </div>
+                <div className='flex flex-col gap-4 py-2'>
+                    <p>My Resources</p>
+                    {
+                        currentEventProducts && (
+                            currentEventProducts.filter((product) => product.user_id === userId).map(product => (
+                                <EventProduct key={product.post_id} onClickBid={() => setShow(true)} product={product} variant="editcard"/>
+                            ))
+                        )
                     }
                 </div>
             </div>
@@ -185,7 +140,7 @@ function Products() {
                     <BidDialogue onClose={() => setShow(false)}/>
                 </div>
             }
-            {showResourceForm && <ResourceForm onClose={closeResourceForm} />}
+            {showResourceForm && <ResourceForm onClose={closeResourceForm} eventId={currentEvent.event_id}/>}
         </>
     )
 }

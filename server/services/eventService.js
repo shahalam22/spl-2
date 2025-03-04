@@ -116,7 +116,13 @@ export const getEventParticipantsByEventId = async (eventId) => {
 export const getProductsByEventId = async (eventId) => {
   const parsedEventId = parseInt(eventId, 10);
   
-  return await prisma.product.findMany({
-    where: { event_id: parsedEventId },
+  // return await prisma.product.findMany({
+  //   where: { event_id: parsedEventId },
+  // });
+
+  return await prisma.post.findMany({
+    where: {
+      event_id: parsedEventId,
+    },
   });
 }

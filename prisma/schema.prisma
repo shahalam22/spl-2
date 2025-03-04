@@ -79,7 +79,7 @@ model Post {
   title       String
   description String
   price       Float
-  bidAmount   Int?     // Added optional integer field
+  bidAmount   Float?     // Added optional integer field
   isRequest   Boolean
   status      String
   createdAt   DateTime @default(now())

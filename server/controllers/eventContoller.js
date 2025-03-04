@@ -285,8 +285,8 @@ export const getAllOfCurrentEvent = catchAsync(async (req, res) => {
   }
 
   const participants = await eventService.getEventParticipantsByEventId(req.params.id);
-  // const products = await eventService.getProductsByEventId(req.params.id);
-  const products = [];
+  const products = await eventService.getProductsByEventId(req.params.id);
+  // const products = [];
 
   var participantsData = [];
   for(let i=0; i<participants.length; i++){

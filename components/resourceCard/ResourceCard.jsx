@@ -112,7 +112,7 @@ function ResourceCard({ variant, resource}) {
       </div>
 
       {/* Modals */}
-      {showCard && <SingleResourcePage onClose={toggleCardDetails} resourceId={resource.post_id} isEditCard={(variant==='editcard')?true:false}/>}
+      {showCard && <SingleResourcePage onClose={toggleCardDetails} resource={resource} isEditCard={(variant==='editcard')?true:false}/>}
       {showEdit && <ResourceForm onClose={toggleEditDetails} data={resource}/>}
     </>
   );

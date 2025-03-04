@@ -30,7 +30,7 @@ function Resources() {
     dispatch(fetchAllPosts());
   }, [dispatch]);
 
-  const resources = posts.filter((post) => !post.isRequest); // Filter for resources
+  const resources = posts.filter((post) => (!post.isRequest && post.event_id===null)); // Filter for resources
 
   const openForm = () => setShowForm(true);
   const closeForm = () => setShowForm(false);
