@@ -97,10 +97,19 @@ function Products() {
         dispatch(fetchAllOfCurrentEvent(params.id));
     }, [dispatch]);
 
-    const [show, setShow] = React.useState(false)
+    const triggerEventDispatch = () => {
+        dispatch(fetchAllOfCurrentEvent(params.id));
+    }
+
     const [showResourceForm, setShowResourceForm] = React.useState(false)
-    const openResourceForm = () => setShowResourceForm(true)
-    const closeResourceForm = () => setShowResourceForm(false)
+    const openResourceForm = () => {
+        setShowResourceForm(true);
+        triggerEventDispatch();
+    }
+    const closeResourceForm = () => {
+        setShowResourceForm(false);
+        triggerEventDispatch();
+    }
 
     return (
         <>
@@ -116,7 +125,7 @@ function Products() {
                     {
                         currentEventProducts && (
                             currentEventProducts.filter((product) => !userId || product.user_id != userId).map(product => (
-                                <EventProduct key={product.post_id} onClickBid={() => setShow(true)} product={product} variant="viewcard"/>
+                                <EventProduct key={product.post_id} product={product} variant="viewcard"/>
                             ))
                         )
                     }
@@ -126,7 +135,7 @@ function Products() {
                     {
                         currentEventProducts && (
                             currentEventProducts.filter((product) => product.user_id === userId).map(product => (
-                                <EventProduct key={product.post_id} onClickBid={() => setShow(true)} product={product} variant="editcard"/>
+                                <EventProduct key={product.post_id} product={product} variant="editcard"/>
                             ))
                         )
                     }
@@ -135,11 +144,6 @@ function Products() {
             {/* <div className='flex justify-center my-6 w-32 m-auto'>
                 <Button variant='black' size='block'>Load More</Button>
             </div> */}
-            {
-                show && <div className='fixed inset-0 z-10 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center' onClick={() => setShow(false)}>
-                    <BidDialogue onClose={() => setShow(false)}/>
-                </div>
-            }
             {showResourceForm && <ResourceForm onClose={closeResourceForm} eventId={currentEvent.event_id}/>}
         </>
     )

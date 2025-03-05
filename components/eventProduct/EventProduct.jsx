@@ -3,26 +3,50 @@ import './EventProduct.css'
 import Button from '../button/Button'
 import SingleResourcePage from '../singleResourcePage/SingleResourcePage'
 import ResourceForm from '../resourceForm/ResourceForm'
-import { useAppDispatch } from '@/redux/hooks'
+import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { deletePost } from '@/redux/features/postsSlice'
+import BidDialogue from '../bidDialogue/BidDialogue'
+import { fetchAllOfCurrentEvent } from '@/redux/features/eventSlice'
 
 
-function EventProduct({product, onClickBid, variant}) {
+function EventProduct({product, variant}) {
     const dispatch = useAppDispatch()
     const [showCard, setShowCard] = React.useState(false)
     const [showEdit, setShowEdit] = React.useState(false)
+    const [showBid, setShowBid] = React.useState(false)
+
+    const userId = useAppSelector((state) => state.auth.user?.user_id)
+    const eventId = useAppSelector((state) => state.events.currentEvent.event_id)
 
     const toggleCardDetails = () => setShowCard((prev) => !prev)
-    const toggleEditDetails = () => setShowEdit((prev) => !prev)
+    const toggleEditDetails = () => {
+        setShowEdit((prev) => !prev);
+        dispatch(fetchAllOfCurrentEvent(eventId))
+    }
+    const toggleBidDetails = () => setShowBid((prev) => !prev)
 
     const handleDelete = async () => {
       
+    //   try {
+    //     dispatch(deletePost(product.post_id));
+    //   } catch (error) {
+    //     console.error('Failed to delete post:', error);
+    //   }
+    //   triggerDispatch();
+
       try {
-        dispatch(deletePost(product.post_id));
+            // Dispatch the deletePost action and wait for it to complete
+            await dispatch(deletePost(product.post_id)).unwrap();
+            // After deletion, fetch the updated event data to refresh the product list
+            await dispatch(fetchAllOfCurrentEvent(eventId)).unwrap();
       } catch (error) {
-        console.error('Failed to delete post:', error);
-      }
+            console.error('Failed to delete post:', error);
+        }
     }
+
+    // useEffect(() => {
+    //     dispatch(fetchAllOfCurrentEvent(eventId))
+    // }, [dispatch])
 
   return (
     <>
@@ -41,7 +65,7 @@ function EventProduct({product, onClickBid, variant}) {
                         variant === 'viewcard' && (
                             <>
                                 <div onClick={(e) => e.stopPropagation()}>
-                                    <Button variant='black' size='sm' onClick={onClickBid}>Bid</Button>
+                                    <Button variant='black' size='sm' onClick={toggleBidDetails}>Bid</Button>
                                 </div>
                                 <div onClick={(e) => e.stopPropagation()}>
                                     <Button variant='cyan' size='sm'>Chat</Button>
@@ -69,6 +93,11 @@ function EventProduct({product, onClickBid, variant}) {
         }
         {
             showEdit && <ResourceForm onClose={toggleEditDetails} data={product}/>
+        }{
+            showBid && 
+            <div className='fixed inset-0 z-10 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center' onClick={toggleBidDetails}>
+                <BidDialogue onClose={toggleBidDetails} userId={userId} eventId={eventId} postId={product.post_id} product={product}/>
+            </div>
         }
     </>
   )

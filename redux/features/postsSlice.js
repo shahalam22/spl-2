@@ -101,6 +101,9 @@ export const updatePost = createAsyncThunk(
       });
       if (!response.ok) throw new Error('Failed to update post');
       const data = await response.json();
+
+      // console.log("Update Post Data:", data);
+      
       return data.data; // { success: true, data: {...} }
     } catch (error) {
       return rejectWithValue(error.message);

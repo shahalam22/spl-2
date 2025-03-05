@@ -34,7 +34,7 @@ export const createPost = catchAsync(async (req, res) => {
     event_id: rest.event_id ? parseInt(rest.event_id, 10) : null, // Optional integer or null
   };
 
-  console.log("Parsed Post Data for Prisma:", postData);
+  // console.log("Parsed Post Data for Prisma:", postData);
 
   const post = await postService.createPost(postData);
   res.status(201).json({ success: true, data: post });
@@ -58,14 +58,19 @@ export const updatePost = catchAsync(async (req, res) => {
   const post = await postService.getPostById(req.params.id);
 
   // Check if the logged-in user is the creator of the post
-  if (!post || post.user_id !== req.user.user_id) {
-    return res.status(403).json({
-      success: false,
-      message: "You are not authorized to update this post",
-    });
-  }
+  // if (!post || post.user_id !== req.user.user_id) {
+  //   return res.status(403).json({
+  //     success: false,
+  //     message: "You are not authorized to update this post",
+  //   });
+  // }
 
-  const updatedPost = await postService.updatePost(req.params.id, req.body);
+  // Updating bid amount to fload because it was string
+  const bidAmount = parseFloat(req.body.bidAmount) || 0;
+  const postData = { ...req.body, bidAmount:bidAmount};
+
+
+  const updatedPost = await postService.updatePost(req.params.id, postData);
   res.status(200).json({ success: true, message: "Post updated successfully", data: updatedPost });
 });
 
