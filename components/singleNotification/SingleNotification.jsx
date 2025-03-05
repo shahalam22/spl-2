@@ -1,38 +1,21 @@
 import React from 'react'
-import Button from '../button/Button'
-import { FaTrash } from 'react-icons/fa'
+import './SingleNotificationPage.css'
 
-const notification = {
-    id: 1,
-    title: "About Event",
-    description: "A high-quality product in excellent condition.",
-    createdat: {
-        seconds: 1632398400
-    }
-}
+function SingleNotification({onClose, notification}) {
 
-function SingleNotification({notification}) {
-
-    const time = new Date(notification.createdat.seconds * 1000).toLocaleTimeString()
+    const time = new Date(notification.createdAt).toLocaleTimeString()
 
   return (
     <>
-        <div className='flex justify-between py-4 px-6 rounded-2xl bg-white shadow-md'>
-            <div className='flex items-center gap-4'>
-                <img className='w-10 h-10 rounded-3xl' src="/grant1.jpg" alt="product" />
-                <div className='flex flex-col gap-1 items-start justify-center'>
-                    <p className='font-semibold'>{notification.title}</p>
-                    <p className='text-sm'>{(notification.description.length > 40) ? (notification.description.substring(0,41) + "...") : notification.description}</p>
-                </div>
+        <div className='fixed inset-0 z-10 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center' onClick={onClose}>
+          <div className='single-request-page bg-white rounded-lg' onClick={(e)=>e.stopPropagation()}>
+            <div className='w-[100%] pb-8 flex flex-col items-center gap-2 pt-5'>
+              <h1 className='text-xl font-semibold'>{notification.title}</h1>
+              <p>{notification.content}</p>
+              <br />
+              <p className='text-sm'>Sent at: {time}</p>
             </div>
-            <div className='flex gap-4 items-center'>
-                <p>{time}</p>
-                <div className='m-auto'>
-                    <Button variant='red' size='block'>
-                            <FaTrash size={20}/>
-                    </Button>
-                </div>
-            </div>
+          </div>
         </div>
     </>
   )

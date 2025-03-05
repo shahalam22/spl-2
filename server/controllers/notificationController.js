@@ -40,6 +40,9 @@ export const markNotificationAsRead = catchAsync(async (req, res) => {
 export const deleteNotification = catchAsync(async (req, res) => {
   const notification = await notificationService.getNotificationById(req.params.id);
 
+  console.log("Inside deleteNotification of notificationController.js");
+  
+
   if (!notification || notification.user_id !== req.user.user_id) {
     return res.status(403).json({
       success: false,

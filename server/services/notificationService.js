@@ -9,6 +9,11 @@ export const getNotificationsByUser = async (userId) => {
   return await prisma.notification.findMany({ where: { user_id: userId } });
 };
 
+export const getNotificationById = async (notificationId) => {
+  notificationId = parseInt(notificationId, 10);
+  return await prisma.notification.findUnique({ where: { notification_id: notificationId } });
+}
+
 export const updateNotificationStatus = async (notificationId, status) => {
   notificationId = parseInt(notificationId, 10);
   return await prisma.notification.update({

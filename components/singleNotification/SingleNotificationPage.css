@@ -1,0 +1,13 @@
+.single-request-page {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    align-items: start;
+    padding: 20px 10px;
+    width: 400px;
+    /* max-width: 400px; */
+    background-image: url('/form_bg2.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: auto;
+  }
