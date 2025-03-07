@@ -4,6 +4,8 @@ Folder structure for: F:\spl-2
 ├── 📁 app/
     ├── 📁 category/
         └── 📄 page.js
+    ├── 📁 dashboard/
+        └── 📄 page.js
     ├── 📁 events/
         ├── 📁 [id]/
             └── 📄 page.js
@@ -65,6 +67,8 @@ Folder structure for: F:\spl-2
     ├── 📁 mainCategoryPage/
         ├── 📄 CategoryPage.css
         └── 📄 CategoryPage.jsx
+    ├── 📁 notificationCard/
+        └── 📄 NotificationCard.jsx
     ├── 📁 registrationDialogue/
         ├── 📄 RegistrationDialogue.css
         └── 📄 RegistrationDialogue.jsx
@@ -79,14 +83,16 @@ Folder structure for: F:\spl-2
         └── 📄 ResourceCard.jsx
     ├── 📁 resourceForm/
         ├── 📄 ResourceForm.css
-        └── 📄 ResourceForm.jsx
+        ├── 📄 ResourceForm.jsx
+        └── 📄 demo.jsx
     ├── 📁 singleConversation/
         └── 📄 SingleConversation.jsx
     ├── 📁 singleEventPage/
         ├── 📄 SingleEventPage.css
         └── 📄 SingleEventPage.jsx
     ├── 📁 singleNotification/
-        └── 📄 SingleNotification.jsx
+        ├── 📄 SingleNotification.jsx
+        └── 📄 SingleNotificationPage.css
     ├── 📁 singleRequestPage/
         ├── 📄 SingleRequestPage.css
         └── 📄 SingleRequestPage.jsx
@@ -101,13 +107,32 @@ Folder structure for: F:\spl-2
             └── 📄 migration.sql
         ├── 📁 20250203035114_update_bid/
             └── 📄 migration.sql
+        ├── 📁 20250228043423_update_post_model/
+            └── 📄 migration.sql
+        ├── 📁 20250228043635_update_post_model/
+            └── 📄 migration.sql
+        ├── 📁 20250301071718_update_event_schema/
+            └── 📄 migration.sql
+        ├── 📁 20250301091701_update_event_schema/
+            └── 📄 migration.sql
+        ├── 📁 20250302080142_update_modal_with_participated_events/
+            └── 📄 migration.sql
+        ├── 📁 20250304095236_update_post_schema_with_bid_amount/
+            └── 📄 migration.sql
+        ├── 📁 20250304103206_update_post_schema_with_bid_amount/
+            └── 📄 migration.sql
+        ├── 📁 20250307044157_update_post_modal_with_buyer_id/
+            └── 📄 migration.sql
         └── 📄 migration_lock.toml
     ├── 📄 schema.prisma
     ├── 📄 seed.js
     └── 📄 testSeed.js
 ├── 📁 redux/
     ├── 📁 features/
-        └── 📄 authSlice.js
+        ├── 📄 authSlice.js
+        ├── 📄 eventSlice.js
+        ├── 📄 notificationSlice.js
+        └── 📄 postsSlice.js
     ├── 📄 axiosInstance.js
     ├── 📄 hooks.js
     └── 📄 store.js
@@ -119,6 +144,7 @@ Folder structure for: F:\spl-2
         ├── 📄 messageController.js
         ├── 📄 notificationController.js
         ├── 📄 postController.js
+        ├── 📄 stripeController.js
         ├── 📄 transactionController.js
         └── 📄 userController.js
     ├── 📁 lib/
@@ -142,6 +168,7 @@ Folder structure for: F:\spl-2
         ├── 📄 messageRoutes.js
         ├── 📄 notificationRoutes.js
         ├── 📄 postRoutes.js
+        ├── 📄 stripeRoutes.js
         ├── 📄 transactionRoutes.js
         └── 📄 userRoutes.js
     ├── 📁 services/
@@ -153,11 +180,58 @@ Folder structure for: F:\spl-2
         ├── 📄 postService.js
         ├── 📄 transactionService.js
         └── 📄 userService.js
+    ├── 📁 uploads/
+        ├── 📄 1740736320499-485783640-462558742_421628747552130_8033133988554230695_n.png
+        ├── 📄 1740736320512-518225375-logo-1.1.png
+        ├── 📄 1740736864922-79085071-462558742_421628747552130_8033133988554230695_n.png
+        ├── 📄 1740736864941-912564297-logo-1.1.png
+        ├── 📄 1740738154050-777082501-462558742_421628747552130_8033133988554230695_n.png
+        ├── 📄 1740738154098-397851091-logo-1.1.png
+        ├── 📄 1740738474764-556161046-462558742_421628747552130_8033133988554230695_n.png
+        ├── 📄 1740738474816-256411858-logo-1.1.png
+        ├── 📄 1740756936465-196410297-462558742_421628747552130_8033133988554230695_n.png
+        ├── 📄 1740756936487-105983425-logo-1.1.png
+        ├── 📄 1740757481621-784423456-logo-1.1.png
+        ├── 📄 1740830746071-867523196-logo-1.1.png
+        ├── 📄 1740832502033-606221899-logo-1.1.png
+        ├── 📄 1740832732221-815607446-logo-1.1.png
+        ├── 📄 1740833628185-755315847-logo-1.1.png
+        ├── 📄 1740833929661-91778846-logo-1.1.png
+        ├── 📄 1740834075923-340782809-logo-1.1.png
+        ├── 📄 1740849731732-801908037-334908021_1851604051888246_3848472445050435059_n.jpg
+        ├── 📄 1740850316670-92007485-logo-1.1.png
+        ├── 📄 1740853779222-436139923-334908021_1851604051888246_3848472445050435059_n.jpg
+        ├── 📄 1740949831420-220612358-462558742_421628747552130_8033133988554230695_n.png
+        ├── 📄 1740949831448-636816780-logo-1.1.png
+        ├── 📄 1741083731246-839371042-462558742_421628747552130_8033133988554230695_n.png
+        ├── 📄 1741083731276-482543204-logo-1.1.png
+        ├── 📄 1741084096315-720041404-logo-1.1.png
+        ├── 📄 1741084477526-131634879-logo-1.1.png
+        ├── 📄 1741085091071-382627066-logo-1.1.png
+        ├── 📄 1741085130038-467264321-logo-1.1.png
+        ├── 📄 1741087992173-84394061-logo-1.1.png
+        ├── 📄 1741088081489-808716185-logo-1.1.png
+        ├── 📄 1741088513376-854909182-logo-1.1.png
+        ├── 📄 1741089172001-433929024-logo-1.1.png
+        ├── 📄 1741089456870-76107818-462558742_421628747552130_8033133988554230695_n.png
+        ├── 📄 1741089456894-699234701-logo-1.1.png
+        ├── 📄 1741138174949-593601014-462558742_421628747552130_8033133988554230695_n.png
+        ├── 📄 1741138174968-612077918-logo-1.1.png
+        ├── 📄 1741138325864-181144016-462558742_421628747552130_8033133988554230695_n.png
+        ├── 📄 1741138325880-92996197-logo-1.1.png
+        ├── 📄 1741138494618-40682340-462558742_421628747552130_8033133988554230695_n.png
+        ├── 📄 1741138494628-595444384-logo-1.1.png
+        ├── 📄 1741138873329-692023532-logo-1.1.png
+        ├── 📄 1741138907753-712264970-logo-1.1.png
+        └── 📄 1741139396823-678007563-logo-1.1.png
     ├── 📁 utils/
         ├── 📄 catchAsync.js
         └── 📄 errorHandler.js
     └── 📄 server.js
 ├── 📄 README.md
+├── 📄 databaseModificationNeeded.txt
+├── 📄 demo.js
+├── 📄 demo.txt
 ├── 📄 folder_structure.py
 ├── 📄 jsconfig.json
 ├── 📄 next.config.mjs

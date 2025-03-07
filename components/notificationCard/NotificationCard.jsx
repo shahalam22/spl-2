@@ -11,17 +11,15 @@ function NotificationCard({notification}) {
     const time = new Date(notification.createdAt).toLocaleTimeString()
 
     const [viewNotification, setViewNotification] = React.useState(false)
-    // const toggleViewNotification = () => { setViewNotification(!viewNotification)}
-    const showViewNotification = () => { 
-        setViewNotification(true)
-        dispatch(updateMarkAsRead(notification.notification_id));
+    const toggleViewNotification = () => { 
+        if(notification.isRead === false){
+            dispatch(updateMarkAsRead(notification.notification_id));
+        }
+        setViewNotification(!viewNotification)
     }
 
-    const closeViewNotification = () => { setViewNotification(false) }
-
     const handleDelete = () => {
-        console.log(notification.notification_id);
-        
+        console.log(notification.notification_id);    
         try{
             dispatch(deleteNotification(notification.notification_id))
         }catch(error){
@@ -29,12 +27,9 @@ function NotificationCard({notification}) {
         }
     }
 
-    // Read and Unread Notification er color ki hobe oita define kore deya lagbe
-    // const classNameBasedOnRead = notification.isRead?'bg-white':'bg-gray-200'
-
   return (
     <>
-        <div className={'flex justify-between py-4 px-6 rounded-2xl shadow-md bg-white'} onClick={showViewNotification}>
+        <div className={'flex justify-between py-4 px-6 rounded-2xl shadow-md bg-white'} onClick={toggleViewNotification}>
             <div className='flex items-center gap-4'>
                 <img className='w-10 h-10 rounded-3xl' src="/grant1.jpg" alt="product" />
                 <div className='flex flex-col gap-1 items-start justify-center'>
@@ -52,7 +47,7 @@ function NotificationCard({notification}) {
             </div>
         </div>
         {
-            viewNotification && <SingleNotification onClose={closeViewNotification} notification={notification} />
+            viewNotification && <SingleNotification onClose={toggleViewNotification} notification={notification} />       
         }
     </>
   )

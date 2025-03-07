@@ -95,7 +95,7 @@ function Resources() {
         <div className="flex justify-center items-center">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[100%] p-5">
             {resources
-            .filter((resource) => !userId || resource.user_id != userId)
+            .filter((resource) => (!userId || resource.user_id != userId) && resource.buyer_id === null)
             .map((resource) => (
               <ResourceCard
                 key={resource.post_id}
@@ -129,6 +129,23 @@ function Resources() {
             </>
           )
         }
+
+        <div className='w-[85%] h-[1px] bg-gray-300'/>
+        <h1 ref={refToOtherResources} className='text-2xl mt-5 font-semibold'>You Bought</h1>
+        <div className="flex justify-center items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[100%] p-5">
+            {resources
+            .filter((resource) => resource.buyer_id === userId)
+            .map((resource) => (
+              <ResourceCard
+                key={resource.post_id}
+                variant={'viewcard'}
+                resource={resource}
+              />
+            ))}
+          </div>
+        </div>
+
         <div className='w-[85%] h-[1px] bg-gray-300'/>
       </div>
       {showForm && <ResourceForm onClose={closeForm} />}

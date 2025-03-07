@@ -4,10 +4,40 @@ import Button from '../button/Button'
 import Image from 'next/image'
 import { FaLocationArrow, FaSearchLocation, FaShare } from 'react-icons/fa'
 import { useAppSelector } from '@/redux/hooks'
+import { useDispatch } from 'react-redux'
+import { loadStripe } from '@stripe/stripe-js'
 
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
 function SingleResourcePage({onClose, resource, isEditCard}) {
   // const resource = useAppSelector((state) => state.posts.posts.find((post) => post.post_id === resourceId));
+
+  const dispatch = useDispatch();
+  const user = useAppSelector((state) => state.auth.user);
+
+  const handleBuyClick = async () => {
+    const stripe = await stripePromise;
+
+    try {
+      const response = await fetch('http://localhost:5000/api/stripe/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({ postId: resource.post_id }),
+      });
+
+      const { id: sessionId } = await response.json();
+
+      const { error } = await stripe.redirectToCheckout({ sessionId });
+      if (error) {
+        console.error('Stripe redirect error:', error);
+      }
+    } catch (error) {
+      console.error('Error creating checkout session:', error);
+    }
+  };
 
   return (
     <div className='fixed inset-0 z-10 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center' onClick={onClose}>
@@ -48,7 +78,7 @@ function SingleResourcePage({onClose, resource, isEditCard}) {
             !isEditCard && (
               <div className='single-resource-page-left-buttons'>
                 <div className='w-[50%]'>
-                  <Button variant='black' size='block'>Request this resource</Button>
+                  <Button variant='black' size='block' onClick={handleBuyClick}>Buy this resource</Button>
                 </div>
                 <div className='w-[50%] flex gap-1'>
                   <Button variant='cyan' size='block'>

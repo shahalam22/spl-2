@@ -11,10 +11,20 @@ import transactionRoutes from "./routes/transactionRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import errorHandler from "./middlewares/error.js";
 import bodyParser from "body-parser";
+import stripeRoutes from "./routes/stripeRoutes.js";
+import * as stripeController from "./controllers/stripeController.js";
 
 dotenv.config();
-
 const app = express();
+
+
+// Add this before other routes in server.js
+app.post(
+  "/api/stripe/webhook",
+  bodyParser.raw({ type: "application/json" }),
+  stripeController.handleWebhook
+);
+
 
 // Enable CORS for localhost:3000
 app.use(cors({
@@ -26,9 +36,7 @@ app.use(cors({
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(express.json());
-
 app.use("/uploads", express.static("uploads"));
 
 // Routes
@@ -40,12 +48,12 @@ app.use("/api/messages", messageRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/categories", categoryRoutes);
+app.use("/api/stripe", stripeRoutes);
 
 // Error handling middleware
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
