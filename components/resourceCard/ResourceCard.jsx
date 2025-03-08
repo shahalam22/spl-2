@@ -13,6 +13,8 @@ function ResourceCard({ variant, resource}) {
   const dispatch = useAppDispatch();
   const [showCard, setShowCard] = React.useState(false);
   const [showEdit, setShowEdit] = React.useState(false);
+  // console.log(resource.images[0]);
+  
 
   const toggleCardDetails = () => setShowCard((prev) => !prev);
   const toggleEditDetails = () => setShowEdit((prev) => !prev);
@@ -36,11 +38,11 @@ function ResourceCard({ variant, resource}) {
       <div className="card" onClick={toggleCardDetails}>
         {/* Image Section */}
         <div className="card-image-container">
-          <img src={`/${resource.images[0]}`} alt={resource.title} className="card-image" />
+          {/* <img src={`http://localhost/uploads${resource.images[0]}`} alt={resource.title} className="card-image" /> */}
           <div className="card-category">
             <img
               src={`/${resource.category_id}.jpg`}
-              alt="Category Icon"
+              alt={resource.category_id}
               className="card-category-icon"
             />
             <p className="card-category-text">{getCategoryName(resource.category_id)}</p>

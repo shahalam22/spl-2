@@ -31,11 +31,11 @@ function SingleEventPage({ onClose, eventId, variant }) {
         className="flex flex-col gap-4 p-5 max-w-[750px] m-auto event-page rounded-xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <img
+        {/* <img
           className="rounded-2xl max-h-[280px]"
           src={`/${event.image}`}
           alt="event_banner"
-        />
+        /> */}
         <div className="flex flex-col md:flex-row gap-5 items-center">
           <div className="w-[100%] md:w-[50%]">
             <div>

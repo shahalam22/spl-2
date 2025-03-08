@@ -106,14 +106,14 @@ function Dashboard() {
           {/* Profile Section */}
           <div className="bg-white shadow rounded-lg p-6 mb-8">
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
-              <img
+              {/* <img
                 src={user?.profilePicture || '/default-profile.png'}
                 alt="Profile"
                 className="w-24 h-24 rounded-full object-cover"
-              />
+              /> */}
               <div className="flex-1">
-                <h2 className="text-xl font-semibold text-gray-800">{user?.username}</h2>
-                <p className="text-gray-600">{user?.email}</p>
+                <h2 className="text-xl font-semibold text-gray-800">Username: {user?.username}</h2>
+                <p className="text-gray-600">User Email: {user?.email}</p>
                 {/* <p className="text-sm text-gray-500 mt-1">Last Login: {new Date(user?.lastLogin).toISOString()}</p> */}
                 {/* <Button
                   variant="cyan"

@@ -44,7 +44,7 @@ function SingleResourcePage({onClose, resource, isEditCard}) {
       <div className='single-resource-page rounded-lg' onClick={(e)=>e.stopPropagation()}>
         <div className='single-resource-page-left'>
           <div className='single-resource-page-left-image'>
-            {
+            {/* {
               resource && (
                 <>
                   <img className='rounded-md' src={`/${resource.images[0]}`} alt='image'/>
@@ -57,7 +57,7 @@ function SingleResourcePage({onClose, resource, isEditCard}) {
                   </div>
                 </>
               )
-            }
+            } */}
           </div>
           <div className='single-resource-page-left-loc-price'>
             <div className='single-resource-page-left-price flex items-baseline gap-2'>
@@ -77,7 +77,7 @@ function SingleResourcePage({onClose, resource, isEditCard}) {
           {
             !isEditCard && (
               resource.buyer_id === null ? (
-                <div className='single-resource-page-left-buttons'>
+                <div className='flex flex-col single-resource-page-left-buttons'>
                   <div className='w-[50%]'>
                     <Button variant='black' size='block' onClick={handleBuyClick}>Buy this resource</Button>
                   </div>

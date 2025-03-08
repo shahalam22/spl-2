@@ -51,7 +51,7 @@ function EventCard({variant, event}) {
       <div className="card" onClick={showCardDetails}>
         {/* Image */}
         <div className='card-image-container'>
-          <img src={`/${event.image}`} alt={event.title} className="card-image" />
+          {/* <img src={`/${event.image}`} alt={event.title} className="card-image" /> */}
           <div className='card-category'>
             {/* <img
               src={`/${event.category}.jpg`}
@@ -64,13 +64,13 @@ function EventCard({variant, event}) {
 
         {/* Body */}
         <div className="card-body">
+          <h3 className="card-title">{event.title}</h3>
+          <p className="card-description">{event.description}</p>
           <div className='text-xs mb-5'>
             <p><span className='font-bold'>Date:</span> {new Date(event.date).toLocaleDateString()}</p>
             <p><span className='font-bold'>Start Time:</span> {new Date(event.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
             <p><span className='font-bold'>Duration:</span> {Math.round((new Date(event.endTime) - new Date(event.startTime)) / (1000 * 60))} minutes</p>
           </div>
-          <h3 className="card-title">{event.title}</h3>
-          <p className="card-description">{event.description}</p>
 
         </div>
 
