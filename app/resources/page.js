@@ -64,7 +64,7 @@ function Resources() {
             </div>
           )}
         </div>
-        <div className='mt-2 w-[100%] py-5 px-12'>
+        {/* <div className='mt-2 w-[100%] py-5 px-12'>
             <div className='flex justify-between'>
                 <input className='border w-[100%] border-gray-100 pl-2 rounded-md bg-gray-100 h-10' type="text" placeholder='Search the Resource'/>
                 <div className='w-12'>
@@ -88,11 +88,11 @@ function Resources() {
                     <option value="expired">Date Expired</option>
                 </select>
             </div>
-        </div>
+        </div> */}
         
-        <div className='w-[85%] h-[1px] bg-gray-300'/>
-        <h1 ref={refToOtherResources} className='text-2xl mt-5 font-semibold'>Resources</h1>
-        <div className="flex justify-center items-center">
+        {/* <div className='w-[85%] h-[1px] bg-gray-300'/> */}
+        {/* <h1 ref={refToOtherResources} className='text-2xl mt-5 font-semibold'>Resources</h1> */}
+        <div ref={refToOtherResources} className="flex justify-center items-center">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[100%] p-5">
             {resources
             .filter((resource) => (!userId || resource.user_id != userId) && resource.buyer_id === null)
@@ -107,7 +107,7 @@ function Resources() {
         </div>
         
         {/* DASHBOARD E DEYA */}
-        {/* {
+        {
           authenticated && (
             <>
               <div className='w-[85%] h-[1px] bg-gray-300'/>
@@ -130,9 +130,9 @@ function Resources() {
               </div>
             </>
           )
-        } */}
+        }
 
-        <div className='w-[85%] h-[1px] bg-gray-300'/>
+        {/* <div className='w-[85%] h-[1px] bg-gray-300'/>
         <h1 ref={refToOtherResources} className='text-2xl mt-5 font-semibold'>You Bought</h1>
         <div className="flex justify-center items-center">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[100%] p-5">
@@ -146,7 +146,7 @@ function Resources() {
               />
             ))}
           </div>
-        </div>
+        </div> */}
 
         <div className='w-[85%] h-[1px] bg-gray-300'/>
       </div>

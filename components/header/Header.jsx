@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation'
 
 const navigationLinks = [
   { path: '/', label: 'Home' },
-  { path: '/category', label: 'Category' },
+  // { path: '/category', label: 'Category' },
   { path: '/resources', label: 'Resources' },
   { path: '/requests', label: 'Requests' },
   { path: '/events', label: 'Events' },

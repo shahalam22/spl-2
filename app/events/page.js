@@ -70,7 +70,7 @@ function Events() {
                 )
               }
             </div>
-            <div className='mt-2 w-[100%] py-5 px-12'>
+            {/* <div className='mt-2 w-[100%] py-5 px-12'>
                 <div className='flex justify-between'>
                     <input className='border w-[100%] border-gray-100 pl-2 rounded-md bg-gray-100 h-10' type="text" placeholder='Search the Resource'/>
                     <div className='w-12'>
@@ -79,8 +79,8 @@ function Events() {
                 </div>
             </div>
             <div className='w-[85%] h-[1px] bg-gray-300'/>
-            <h1 ref={refToOtherEvents} className='text-2xl mt-5 font-semibold'>Events</h1>
-            <div className="flex justify-center items-center">
+            <h1 ref={refToOtherEvents} className='text-2xl mt-5 font-semibold'>Events</h1> */}
+            <div ref={refToOtherEvents} className="flex justify-center items-center">
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[100%] p-5'>
                     {
                         events.filter(event => ((event.user_id !== userId) && ( !(participatedEvents ?? []).some(participated => participated.event_id === event.event_id)))).map((event) => (
@@ -92,7 +92,7 @@ function Events() {
                     }
                 </div>
             </div>
-            {
+            {/* {
               participatedEvents && (
                 <>
                 <div className='w-[85%] h-[1px] bg-gray-300'/>
@@ -112,14 +112,14 @@ function Events() {
                   </div>
                 </>
               )
-            }
+            } */}
 
             {/* DASHBOARD E DEYA ACHE */}
-            {/* {
+            {
               authenticated && (
                 <>
                   <div className='w-[85%] h-[1px] bg-gray-300'/>
-                  <h1 className='text-2xl mt-5 font-semibold'>My Events</h1>
+                  <h1 ref={refToMyEvents} className='text-2xl mt-5 font-semibold'>My Events</h1>
                   <div className="flex justify-center items-center">
                       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[100%] p-5'>
                           {
@@ -135,7 +135,7 @@ function Events() {
                   </div>
                 </>
               )
-            } */}
+            }
             <div className='w-[85%] h-[1px] bg-gray-300'/>
         </div>
         {

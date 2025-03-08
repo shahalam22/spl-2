@@ -24,7 +24,7 @@ export const createPost = catchAsync(async (req, res) => {
     user_id: parseInt(req.user.user_id, 10), // Ensure user_id is an integer
     category_id: parseInt(rest.category_id, 10), // Convert string to integer
     price: parseFloat(rest.price) || 0, // Convert string to float
-    bidAmount: parseFloat(rest.bidAmount) || 0, // Convert string to float
+    bidAmount: parseFloat(rest.bidAmount) || parseFloat(rest.price) || 0, // Convert string to float
     quantity: parseInt(rest.quantity, 10) || 0, // Convert string to integer
     isRequest: rest.isRequest === "true" || rest.isRequest === true, // Convert string to boolean
     status: rest.status || "available", // Default if not provided
@@ -35,6 +35,8 @@ export const createPost = catchAsync(async (req, res) => {
   };
 
   // console.log("Parsed Post Data for Prisma:", postData);
+  console.log("log from postController.js", postData);
+  
 
   const post = await postService.createPost(postData);
   res.status(201).json({ success: true, data: post });

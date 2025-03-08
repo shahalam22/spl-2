@@ -43,7 +43,7 @@ export const createPost = createAsyncThunk(
     try {
       const { auth } = getState();
       // console.log("Auth Token:", auth.user.token); // Check token
-      // console.log("Post Data:", postData); // Check data before FormData
+      console.log("Post Data from postSlice.js:", postData); // Check data before FormData
 
       const formData = new FormData();
       for (const key in postData) {

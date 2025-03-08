@@ -70,7 +70,7 @@ function Requests() {
                         <Button variant='black' size='block'><FaSearch className='m-auto' size={16}/></Button>
                     </div>
                 </div>
-                <div className='flex gap-2 justify-between mt-2'>
+                {/* <div className='flex gap-2 justify-between mt-2'>
                     <select className='border w-[100%] border-gray-100 pl-2 rounded-md bg-gray-100 h-10' name="category" id="category">
                         <option value="food">Food</option>
                         <option value="cloth">Cloth</option>
@@ -86,11 +86,11 @@ function Requests() {
                         <option value="surplus">Surplus</option>
                         <option value="expired">Date Expired</option>
                     </select>
-                </div>
+                </div> */}
             </div>
-            <div className='w-[85%] h-[1px] bg-gray-300'/>
-            <h1 ref={refToOtherRequests} className='text-2xl mt-5 font-semibold'>Requests</h1>
-            <div className="flex justify-center items-center">
+            {/* <div className='w-[85%] h-[1px] bg-gray-300'/>
+            <h1 ref={refToOtherRequests} className='text-2xl mt-5 font-semibold'>Requests</h1> */}
+            <div ref={refToOtherRequests} className="flex justify-center items-center">
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[100%] p-5'>
                     {
                         requests.filter((request) => request.user_id !== userId).map((request) => (

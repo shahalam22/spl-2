@@ -84,6 +84,9 @@ function Dashboard() {
   const requests = userPosts.filter((post) => post.isRequest);
   const userEvents = events.filter((event) => event.user_id === user?.user_id);
 
+  const userBoughtedResources = posts.filter((post) => (!post.isRequest && post.event_id===null)); // Filter for resources
+
+
   const handleEditProfile = () => {
     // Placeholder for profile editing logic (could open a modal or redirect)
     alert('Edit profile functionality to be implemented');
@@ -112,14 +115,14 @@ function Dashboard() {
                 <h2 className="text-xl font-semibold text-gray-800">{user?.username}</h2>
                 <p className="text-gray-600">{user?.email}</p>
                 {/* <p className="text-sm text-gray-500 mt-1">Last Login: {new Date(user?.lastLogin).toISOString()}</p> */}
-                <Button
+                {/* <Button
                   variant="cyan"
                   size="sm"
                   className="mt-4"
                   onClick={handleEditProfile}
                 >
                   Edit Profile
-                </Button>
+                </Button> */}
               </div>
             </div>
           </div>
@@ -138,7 +141,7 @@ function Dashboard() {
           </div> */}
 
           {/* Resources Section */}
-          <div className="bg-white shadow rounded-lg p-6 mb-8">
+          {/* <div className="bg-white shadow rounded-lg p-6 mb-8">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">Your Resources</h2>
             {resources.length === 0 ? (
               <p className="text-gray-600">You haven’t posted any resources yet.</p>
@@ -154,10 +157,31 @@ function Dashboard() {
                 ))}
               </div>
             )}
+          </div> */}
+
+
+
+          <div className='w-[85%] h-[1px] bg-gray-300'/>
+          <div className="bg-white shadow rounded-lg p-6">
+            <h1 className='text-2xl mt-5 font-semibold'>You Bought</h1>
+            <div className="flex justify-center items-center">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[100%] p-5">
+                {userBoughtedResources
+                .filter((resource) => resource.buyer_id === user.user_id)
+                .map((resource) => (
+                  <ResourceCard
+                    key={resource.post_id}
+                    variant={'viewcard'}
+                    resource={resource}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
 
+
           {/* Requests Section */}
-          <div className="bg-white shadow rounded-lg p-6 mb-8">
+          {/* <div className="bg-white shadow rounded-lg p-6 mb-8">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">Your Requests</h2>
             {requests.length === 0 ? (
               <p className="text-gray-600">You haven’t posted any requests yet.</p>
@@ -173,10 +197,10 @@ function Dashboard() {
                 ))}
               </div>
             )}
-          </div>
+          </div> */}
 
           {/* Events Section */}
-          <div className="bg-white shadow rounded-lg p-6">
+          {/* <div className="bg-white shadow rounded-lg p-6">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">Your Events</h2>
             {userEvents.length === 0 ? (
               <p className="text-gray-600">You haven’t created any events yet.</p>
@@ -192,7 +216,30 @@ function Dashboard() {
                 ))}
               </div>
             )}
-          </div>
+          </div> */}
+          {
+              participatedEvents && (
+                <>
+              <div className="bg-white shadow rounded-lg p-6">
+                <div className='w-[85%] h-[1px] bg-gray-300'/>
+                  <h1 className='text-2xl mt-5 font-semibold'>Participating Events</h1>
+                  <div className="flex justify-center items-center">
+                      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[100%] p-5'>
+                          {
+                            participatedEvents.map((event) => (
+                                <EventCard 
+                                  key={event.event_id} 
+                                  variant={'joincard'} 
+                                  event={event}
+                                />
+                            ))
+                          }
+                      </div>
+                  </div>
+              </div>
+                </>
+              )
+            }
         </div>
 
         {/* Modals for Forms and Single Views */}

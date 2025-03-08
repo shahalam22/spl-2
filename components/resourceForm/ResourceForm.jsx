@@ -23,7 +23,7 @@ function ResourceForm({ onClose, data, eventId }) {
     quantity: data? data.quantity : 0,
     status: data? data.status : "available",
     user_id: data ? data.user_id : userId,
-    event_id: data ? data.event_id : eventId ? eventId : -1,
+    event_id: data ? data.event_id : eventId ? eventId : null,
   });
 
   const handleChange = (e) => {
