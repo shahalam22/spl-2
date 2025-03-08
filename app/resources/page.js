@@ -105,7 +105,9 @@ function Resources() {
             ))}
           </div>
         </div>
-        {
+        
+        {/* DASHBOARD E DEYA */}
+        {/* {
           authenticated && (
             <>
               <div className='w-[85%] h-[1px] bg-gray-300'/>
@@ -128,7 +130,7 @@ function Resources() {
               </div>
             </>
           )
-        }
+        } */}
 
         <div className='w-[85%] h-[1px] bg-gray-300'/>
         <h1 ref={refToOtherResources} className='text-2xl mt-5 font-semibold'>You Bought</h1>

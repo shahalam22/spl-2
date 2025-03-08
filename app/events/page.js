@@ -114,7 +114,8 @@ function Events() {
               )
             }
 
-            {
+            {/* DASHBOARD E DEYA ACHE */}
+            {/* {
               authenticated && (
                 <>
                   <div className='w-[85%] h-[1px] bg-gray-300'/>
@@ -130,16 +131,11 @@ function Events() {
                                 />
                             ))
                           }
-                          {/* {
-                            events.filter((event)=>{
-                              event.user_id === userId
-                            }).length === 0 && <p>No events found</p>
-                          } */}
                       </div>
                   </div>
                 </>
               )
-            }
+            } */}
             <div className='w-[85%] h-[1px] bg-gray-300'/>
         </div>
         {
