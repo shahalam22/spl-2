@@ -29,3 +29,33 @@ export const deleteMessage = async (messageId) => {
   messageId = parseInt(messageId, 10);
   return await prisma.message.delete({ where: { message_id: messageId } });
 };
+
+
+export const getMessagesByUsers = async (userId, anotherUserId) => {
+  userId = parseInt(userId, 10);
+  anotherUserId = parseInt(anotherUserId, 10);
+
+  return await prisma.message.findMany({
+    where: {
+      OR: [
+        { sender_id: userId, receiver_id: anotherUserId },
+        { sender_id: anotherUserId, receiver_id: userId },
+      ],
+    },
+  });
+}
+
+
+export const getChatUsers = async (userId) => {
+  userId = parseInt(userId, 10);
+
+  return await prisma.message.findMany({
+    where: {
+      OR: [{ sender_id: userId }, { receiver_id: userId }],
+      select: {
+        sender_id: true,
+        receiver_id: true,
+      },
+    },
+  });
+}

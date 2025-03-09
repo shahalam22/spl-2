@@ -4,12 +4,18 @@ import Button from '../button/Button'
 import Image from 'next/image'
 import { FaLocationArrow, FaSearchLocation, FaShare } from 'react-icons/fa'
 import { useAppSelector } from '@/redux/hooks'
+import { useRouter } from 'next/navigation'
 
 
 function SingleRequestPage({onClose, requestId, isEditCard}) {
   const request = useAppSelector((state) => state.posts.posts.find((post) => post.post_id === requestId));
+  const user = useAppSelector((state) => state.auth.user);
+  const router = useRouter();
 
   // console.log(request);
+  const handleMessageClick = () => {
+    router.push(`/messages?currentUserId=${user.user_id}&anotherUserId=${request.user_id}`);
+  }
   
   return (
     <div className='fixed inset-0 z-10 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center' onClick={onClose}>
@@ -46,12 +52,14 @@ function SingleRequestPage({onClose, requestId, isEditCard}) {
                   <Button variant='black' size='block'>Provide this resource</Button>
                 </div>
                 <div className='w-[50%] flex gap-1'> */}
-                  <Button variant='cyan' size='block'>
-                    <div className='flex items-center justify-center gap-1'>
-                      <svg xmlns="http://www.w3.org/2000/svg" height="14" width="14" viewBox="0 0 512 512"><path fill="#ffffff" d="M64 0C28.7 0 0 28.7 0 64L0 352c0 35.3 28.7 64 64 64l96 0 0 80c0 6.1 3.4 11.6 8.8 14.3s11.9 2.1 16.8-1.5L309.3 416 448 416c35.3 0 64-28.7 64-64l0-288c0-35.3-28.7-64-64-64L64 0z"/></svg>
-                      Message
-                    </div>
-                  </Button>
+                  <div onClick={handleMessageClick}>
+                    <Button variant='cyan' size='block'>
+                      <div className='flex items-center justify-center gap-1'>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="14" width="14" viewBox="0 0 512 512"><path fill="#ffffff" d="M64 0C28.7 0 0 28.7 0 64L0 352c0 35.3 28.7 64 64 64l96 0 0 80c0 6.1 3.4 11.6 8.8 14.3s11.9 2.1 16.8-1.5L309.3 416 448 416c35.3 0 64-28.7 64-64l0-288c0-35.3-28.7-64-64-64L64 0z"/></svg>
+                        Message
+                      </div>
+                    </Button>
+                  </div>
                   <Button variant='red' size='block'>
                     <div className='flex items-center justify-center gap-3'>
                       <FaShare />

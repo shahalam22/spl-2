@@ -69,7 +69,7 @@ function Participants() {
                     {
                         currentEventParticipants && (
                             currentEventParticipants.map(participant => (
-                                <EventUser key={participant.user_id} user={participant} isOwner={currentEvent.user_id === userId? true : false}/>
+                                <EventUser key={participant.user_id} user={participant} isOwner={currentEvent.user_id === userId? true : false} userId = {participant.user_id}/>
                             ))
                         )
                     }

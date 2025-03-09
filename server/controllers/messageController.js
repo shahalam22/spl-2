@@ -90,3 +90,18 @@ export const deleteMessage = catchAsync(async (req, res) => {
     message: "Message deleted successfully",
   });
 });
+
+
+export const getMessagesByUsers = catchAsync(async (req, res) => {
+  const messages = await messageService.getMessagesByUsers(req.params.userId, req.params.anotherUserId);
+
+  // console.log("Messages:", messages);
+  
+  res.status(200).json({ success: true, data: messages });
+});
+
+
+export const getChatUsers = catchAsync(async (req, res) => {
+  const users = await messageService.getChatUsers(req.params.userId);
+  res.status(200).json({ success: true, data: users });
+});
