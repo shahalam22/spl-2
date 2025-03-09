@@ -18,7 +18,7 @@ export const createCheckoutSession = catchAsync(async (req, res) => {
     user_id: userId.toString(),
     post_id: postId.toString(),
   };
-//   console.log("Creating checkout session with metadata:", metadata);
+  // console.log("Creating checkout session with metadata:", metadata);
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
@@ -41,7 +41,7 @@ export const createCheckoutSession = catchAsync(async (req, res) => {
     metadata: metadata,
   });
 
-//   console.log("Checkout session created with ID:", session.id, "Metadata:", session.metadata);
+  // console.log("Checkout session created with ID:", session.id, "Metadata:", session.metadata);
 
   res.status(200).json({ success: true, id: session.id });
 });
@@ -50,7 +50,7 @@ export const handleWebhook = catchAsync(async (req, res) => {
   const sig = req.headers["stripe-signature"];
   let event;
 
-//   console.log("Webhook received:", JSON.stringify(req.body, null, 2));
+  // console.log("Webhook received:", JSON.stringify(req.body, null, 2));
 
   try {
     event = stripe.webhooks.constructEvent(
@@ -76,21 +76,21 @@ export const handleWebhook = catchAsync(async (req, res) => {
     }
 
     try {
-    //   console.log("Updating post with buyer_id:", { post_id, user_id });
+      // console.log("Updating post with buyer_id:", { post_id, user_id });
       const updatedPost = await postService.updatePost(post_id, {
         buyer_id: parseInt(user_id, 10),
       });
-    //   console.log("Post updated:", updatedPost);
+      // console.log("Post updated:", updatedPost);
 
       const postTitle = (await postService.getPostById(post_id)).title;
-    //   console.log("Creating notification for user:", user_id);
+      // console.log("Creating notification for user:", user_id);
       const notification = await notificationService.createNotification({
         user_id: parseInt(user_id, 10),
         title: "Purchase Successful",
         content: `You have successfully purchased "${postTitle}"`,
         isRead: false,
       });
-    //   console.log("Notification created:", notification);
+      // console.log("Notification created:", notification);
     } catch (error) {
       console.error("Error processing checkout.session.completed:", error.message);
       throw error;

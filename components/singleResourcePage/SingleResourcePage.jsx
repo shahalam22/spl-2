@@ -17,6 +17,8 @@ function SingleResourcePage({onClose, resource, isEditCard}) {
 
   const handleBuyClick = async () => {
     const stripe = await stripePromise;
+    console.log("inside handleBuyClick in SingleResourcePage");
+    
 
     try {
       const response = await fetch('http://localhost:5000/api/stripe/create-checkout-session', {

@@ -193,16 +193,16 @@ function ResourceForm({ onClose, data, eventId }) {
             <div className="vertical-line"></div>
             <div className="resource-form-right">
               <div>
-                <div className="resource-form-single-input">
-                  <label className="resource-form-label">Upload Image</label>
-                  <input
-                    type="file"
-                    multiple
-                    accept="image/*"
-                    name="images"
-                    onChange={handleFileChange}
-                  />
-                </div>
+                {/* <div className="resource-form-single-input"> */}
+                  {/* <label className="resource-form-label">Upload Image</label> */}
+                  {/* <input */}
+                    {/* // type="file" */}
+                    {/* // multiple */}
+                    {/* // accept="image/*" */}
+                    {/* // name="images" */}
+                    {/* // onChange={handleFileChange} */}
+                  {/* // /> */}
+                {/* </div> */}
                 <br />
                 <p className="text-[14px]">Address</p>
                 <div className="resource-form-double-input">

@@ -1,7 +1,7 @@
 import prisma from "../lib/prisma.js";
 
 export const createPost = async (postData) => {
-  console.log("postData from postService.js", postData);
+  // console.log("postData from postService.js", postData);
   
   return await prisma.post.create({ data: postData });
 };

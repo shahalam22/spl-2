@@ -35,7 +35,7 @@ export const createPost = catchAsync(async (req, res) => {
   };
 
   // console.log("Parsed Post Data for Prisma:", postData);
-  console.log("log from postController.js", postData);
+  // console.log("log from postController.js", postData);
   
 
   const post = await postService.createPost(postData);
