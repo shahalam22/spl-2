@@ -1,19 +1,7 @@
 import * as postService from "../services/postService.js";
 import catchAsync from "../utils/catchAsync.js";
 
-// export const createPost = catchAsync(async (req, res) => {
 
-//   const postData = {
-//     ...req.body,
-//     user_id: req.body.user_id,
-//     images: req.files ? req.files.map((file) => `/uploads/${file.filename}`) : [],
-//   }
-
-//   console.log("log from postController.js", postData);
-  
-//   const post = await postService.createPost(postData);
-//   res.status(201).json({ success: true, data: post });
-// });
 
 export const createPost = catchAsync(async (req, res) => {
   const { location, pickup, ...rest } = req.body;

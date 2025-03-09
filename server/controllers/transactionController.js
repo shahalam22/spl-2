@@ -33,7 +33,6 @@ export const getAllTransactions = async (req, res) => {
   }
 };
 
-// Update a transaction by ID
 export const updateTransaction = async (req, res) => {
   try {
     const transaction = await transactionService.updateTransaction(parseInt(req.params.id), req.body);
@@ -43,7 +42,6 @@ export const updateTransaction = async (req, res) => {
   }
 };
 
-// Delete a transaction by ID
 export const deleteTransaction = async (req, res) => {
   try {
     await transactionService.deleteTransaction(parseInt(req.params.id));
