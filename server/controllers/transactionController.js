@@ -33,7 +33,6 @@ export const getAllTransactions = async (req, res) => {
   }
 };
 
-// Update a transaction by ID
 export const updateTransaction = async (req, res) => {
   try {
     const transaction = await transactionService.updateTransaction(parseInt(req.params.id), req.body);
