@@ -43,7 +43,6 @@ export const updateTransaction = async (req, res) => {
   }
 };
 
-// Delete a transaction by ID
 export const deleteTransaction = async (req, res) => {
   try {
     await transactionService.deleteTransaction(parseInt(req.params.id));
