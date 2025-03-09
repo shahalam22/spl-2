@@ -65,7 +65,7 @@ function Registration() {
         </button>
 
         {/* Registration Content */}
-        <div className="flex flex-col w-full md:w-1/2">
+        <div className="flex flex-col w-full md:w-1/2 justify-between">
           <Image className="max-w-[200px] mx-auto mb-5" src={logo} alt="logo" />
           <form onSubmit={handleFormSubmit}>
             <div className="flex flex-col justify-center items-center gap-3 w-[90%] mx-auto">
@@ -123,14 +123,14 @@ function Registration() {
                 <span className="text-cyan-500 hover:text-cyan-300">Log In</span>
               </Link>
             </p>
-            {SOCIAL_LOGIN_BUTTONS.map(({ icon, label }, index) => (
+            {/* {SOCIAL_LOGIN_BUTTONS.map(({ icon, label }, index) => (
               <Button key={index} variant="black" size="block">
                 <div className="flex justify-center items-center gap-2 w-full h-8 px-2 cursor-pointer">
                   {icon}
                   {label}
                 </div>
               </Button>
-            ))}
+            ))} */}
           </div>
         </div>
 

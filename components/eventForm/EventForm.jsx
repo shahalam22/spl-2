@@ -61,7 +61,7 @@ function EventForm({onClose, data}) {
         }else{
             dispatch(createEvent(formData)).then(() => onClose());
         }
-        dispatch(fetchAllEvents());
+        dispatch(fetchAllEvents(userId));
     }
 
 

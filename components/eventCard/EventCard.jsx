@@ -7,6 +7,7 @@ import Link from 'next/link';
 import EventForm from '../eventForm/EventForm';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { deleteEvent, unregisterFromEvent } from '@/redux/features/eventSlice';
+import { useRouter } from 'next/navigation';
 
 // variant - viewcard, editcard
 
@@ -33,6 +34,22 @@ function EventCard({variant, event}) {
     }catch(error){
       console.error('Failed to delete event:', error);
     }
+  }
+
+  const router = useRouter();
+
+  const handleJoin = async (eventId) => {
+    // // console.log(event.event_id);
+    // if(event.startTime < new Date() && event.endTime > new Date()){
+    //     router.push(`/events/${eventId}/`);
+    // }else{
+    //   if(event.startTime > new Date()){
+    //     alert('Event has not started yet');
+    //   }else{
+    //     alert('Event has already ended');
+    //   }
+    // }
+    router.push(`/events/${eventId}/`);
   }
 
   const handleUnregister = async () => {
@@ -106,9 +123,12 @@ function EventCard({variant, event}) {
                 <div className='w-[50%]' onClick={editCardDetails}>
                   <Button variant='black' size='block'>Edit</Button>
                 </div>
-                <Link href={`/events/${event.event_id}`} className='w-[50%]'>
+                {/* <Link href={`/events/${event.event_id}`} className='w-[50%]'>
                   <Button variant='cyan' size='block'>Join</Button>
-                </Link>
+                </Link> */}
+                <div onClick={(eventId) => {handleJoin(eventId)}} className='w-[50%]'>
+                  <Button variant='cyan' size='block'>Join</Button>
+                </div>
               </div>
               <div className='w-[20%]'>
                 <Button variant='red' size='block' onClick={handleDelete}>

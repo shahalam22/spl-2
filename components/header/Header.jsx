@@ -9,9 +9,9 @@ import { useRouter } from 'next/navigation'
 const navigationLinks = [
   { path: '/', label: 'Home' },
   // { path: '/category', label: 'Category' },
-  { path: '/resources', label: 'Resources' },
-  { path: '/requests', label: 'Requests' },
-  { path: '/events', label: 'Events' },
+  { path: '/login', label: 'Resources' },
+  { path: '/login', label: 'Requests' },
+  { path: '/login', label: 'Events' },
 ]
 
 const UserIcon = () => (
@@ -38,7 +38,7 @@ function Header() {
         <nav className='hidden md:flex gap-4 lg:gap-16'>
           {navigationLinks.map(({ path, label }) => (
             <Link 
-              key={path}
+              key={label}
               href={path}
               className='hover:text-gray-500 transition-colors'
             >

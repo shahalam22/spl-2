@@ -61,6 +61,7 @@ function Dashboard() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const user = useAppSelector((state) => state.auth.user);
+  const currentUserId = user?.user_id;
   const {posts, loading: postsLoading, error: postsError} = useAppSelector((state) => state.posts);
   const { events, loading: eventsLoading, error: eventsError, participatedEvents } = useAppSelector((state) => state.events)
 
@@ -167,7 +168,7 @@ function Dashboard() {
             <div className="flex justify-center items-center">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[100%] p-5">
                 {userBoughtedResources
-                .filter((resource) => resource.buyer_id === user.user_id)
+                .filter((resource) => resource.buyer_id === currentUserId)
                 .map((resource) => (
                   <ResourceCard
                     key={resource.post_id}
