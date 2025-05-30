@@ -1,13 +1,13 @@
-# Event Management Platform
+# Surplus Management Platform
 
 ## Overview
 
-The Event Management Platform is a full-stack web application built with Next.js, React, and Prisma, designed to facilitate event creation, management, bidding, and user interactions. Users can register, log in, browse events, place bids, manage resources, send messages, and receive notifications. The application integrates Stripe for payments and uses Redux for state management.
+The Surplus Management Platform is a full-stack web application built with Next.js, React, and Prisma, designed to facilitate event creation, management, bidding, and user interactions. Users can register, log in, browse events, place bids, manage resources, send messages, and receive notifications. The application integrates Stripe for payments and uses Redux for state management.
 
 ## Features
 
 - **User Authentication**: Secure login and registration with JWT-based authentication.
-- **Event Management**: Create, view, and manage events with dynamic categories.
+- **Surplus Management**: Create, view, and manage resource sharing events with dynamic categories.
 - **Bidding System**: Place and manage bids on event-related posts.
 - **Resource Management**: Add and manage resources associated with events.
 - **Messaging**: Real-time messaging between users.
